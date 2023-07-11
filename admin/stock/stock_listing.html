@@ -1,0 +1,215 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tables {% endblock title %}
+{% load static %}
+{% block content %}
+
+<style>
+  .error{
+    color:red;
+  }
+  .active1{
+    width: 22px;
+    border: 1px solid;
+    text-align: center;
+    background: #5e72e4;
+    margin-left:5px;
+    margin-right:5px
+  }
+  .pagination li a{
+    margin-left:5px;
+    margin-right:5px;
+  }
+</style>  
+
+
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Stock</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="{% url 'frontend:index' %}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{% url 'store:add_pharmacy' %}">Stock</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Stock List</li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col-lg-6 col-5 text-right">
+            <!-- Button trigger modal -->
+            <a href="{% url 'store:add_stock' %}" class="btn btn-sm btn-neutral">Add Stock</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    
+    <!-- Dark table -->
+    <div class="row">
+      <div class="col">
+        <div class="card bg-default shadow">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="text-white mb-0">Stock List</h3>
+
+            <form action="{% url 'store:import_excel' %}" method='post' >
+              {% csrf_token %}
+
+              <input type='file' name='file' value='file'>
+
+              <button type='submit'>submit</button>
+
+            </form>
+
+
+          </div>
+          <div class="table-responsive">
+            <table id="" class="table align-items-center table-dark table-flush">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" >Pharma</th>
+                  <th scope="col" >Product</th>
+                  <th scope="col" >Quantity</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tr>
+                <form action="{% url 'store:add_pharmacy' %}" method='GET'>
+                    <td ><input type='text' name='pharma' value="{% if name %}{{name}}{% else %}{% endif %}"></td>
+                    <td ><input type='text'  name='product' value="{% if product %}{{product}}{% else %}{% endif %}"></td>
+                    <td ><input type='text'  name='quantity' value="{% if quantity %}{{quantity}}{% else %}{% endif %}"></td>
+                    <td ><button type='submit' class='btn btn-primary btn-sm'>Search</button></td>
+                </form>
+              </tr>
+              
+              <tbody class="list">
+              {% for s in stock %}
+
+                <tr>
+                  <th scope="row">
+                        <span class="name mb-0 text-sm">{{s.pharma.name|truncatechars:40}}</span>
+                  </th>
+
+                  <td class="description">
+                   <span aria-hidden="true"></span> {{s.product.name|truncatechars:30}}
+                  </td>
+
+                  {% comment %} {% if s.product.p_package_type == 'strip' %} {% endcomment %}
+                  <td class="address">
+                    <span aria-hidden="true"></span> {{s.quantity}} {{s.product.p_package_type}} {% if s.product.p_package_type == 'strip' %} ({% widthratio s.quantity 1 s.product.p_quantity  %} {{s.product.p_type}}) {% else %}{% endif %}
+                  </td>
+                  {% comment %} {% else %} {% endcomment %}
+                  {% comment %} <td class="address">
+                    <span aria-hidden="true"></span> {{s.quantity}} {{s.product.p_package_type}} 
+                  </td>
+                  {% endif %} {% endcomment %}
+
+                  <td class="text-right">
+                      <div class="d-flex align-items-center">
+                        <a class="p-1" href="{% url 'store:view_stock' s.id %}"><i class="fa-solid fa-eye btn btn-primary btn-sm"></i></a>
+                        <a class="p-1" href="{% url 'store:edit_stock' s.id %}"><i class="fa-solid fa-pen btn btn-success btn-sm"></i></a>
+                        <a class="p-1" href="{% url 'store:delete_stock' s.id %}"><i class="fa-solid fa-trash btn btn-danger btn-sm"></i></a>
+                      </div>
+                    {% comment %} </div> {% endcomment %}
+                  </td>
+                </tr>
+              {% endfor %}
+
+                
+              </tbody>
+            </table>
+
+            <div class='container mx-auto' style='width:fit-content'>
+              {% if pharmacy.has_other_pages %}
+              <ul class="pagination">
+                {% if pharmacy.has_previous %}
+                  <li><a href="?page={{ pharmacy.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in pharmacy.paginator.page_range %}
+                  {% if pharmacy.number == i %}
+                    <li class="active1"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                  {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if pharmacy.has_next %}
+                  <li><a href="?page={{ pharmacy.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+              </ul>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include "includes/footer.html" %}
+
+  </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+
+<script>
+function clicked(id){
+  $('#project_id').val(id)
+    $.ajax({
+      url:"/get-privous-project/{{id}}" +id,
+      type:"GET",
+      //dataType : 'json',
+      success: function( response ) 
+        {
+            $('#edit_name').val(response.project_title)
+            $('#edit_budget').val(response.project_budget)
+        }
+    })
+   }
+</script>  
+<script>
+  $( document ).ready(function() {
+    var utc = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+    //alert(utc)
+  });
+</script>   
+
+<script>
+    $("#pharmacy_form").validate({
+      rules: {
+        name: {
+             required: true,
+        },              
+        description: {
+             required: true,
+        },       
+        address: {
+            required: true,
+       },      
+       postcode: {
+        required: true,
+   },        
+    },
+       
+    messages: {
+      name: "Please Enter Pharmacy Name", 
+      description: "Please Enter Description",             
+      address: "Please Enter Addres",             
+      postcode: "Please Enter Post Code",             
+  }
+})
+</script> 
+
+
+
+{% endblock javascripts %}

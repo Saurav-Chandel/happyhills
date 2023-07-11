@@ -1,0 +1,218 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tables {% endblock title %}
+{% load static %}
+{% block content %}
+
+<style>
+    .card-body {
+        border: 1px solid;
+        padding: 2px;
+        margin: 27px;
+    }
+</style>    
+
+
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          
+         
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Dark table -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+          <div class="col-xl-12 order-xl-1">
+            <div class="card">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col-8">
+                    <h3 class="mb-0">Stock Information</h3>
+                  </div>
+                  {% comment %} <div class="col-4 text-right">
+                    <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+                  </div> {% endcomment %}
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="d-flex flex-column   mb-3">
+   
+                       {% if stock %}
+                      <div class=" ">
+                          <div class='d-flex flex-row-reverse'>
+                            <a href="{% url 'store:edit_stock' stock.id %}"><div class="btn btn-success btn-sm">Edit</div></a>
+                          </div>
+                          <div class='d-flex flex-row'>
+                              <div class=" m-2 "><b>Pharmacy:</b></div>
+                              <div class=" m-2 ">{{stock.pharma.name}}</div>
+                          </div>
+                          <div class='d-flex flex-row'>
+                              <div class=" m-2 "><b>Product :</b></div>
+                              <div class=" m-2 ">{{stock.product.name}}</div>
+                          </div>
+
+                          <div class='d-flex flex-row'>
+                            <div class=" m-2 "><b>Product Quantity :</b></div>
+                            <div class=" m-2 ">{% if stock.product.p_quantity %}{{stock.product.p_quantity}} {{stock.product.p_type}} per {{stock.product.p_package_type}}{% else %}-{% endif %}</div>
+                          </div>
+
+                          <div class='d-flex flex-row'>
+                              <div class=" m-2 "><b>Stock Quantity :</b></div>
+                              <div class=" m-2 ">{{stock.quantity}} {{stock.product.p_package_type}} {% if stock.product.p_package_type == 'strip' %} ({% widthratio stock.quantity 1 stock.product.p_quantity  %} {{stock.product.p_type}}) {% else %}{% endif %}</div>
+                          </div>
+                        <div class='d-flex flex-row'>
+                            <div class=" m-2 "><b>Product Type :</b></div>
+                            <div class=" m-2 ">{{stock.product.p_type}}</div>
+                        </div>
+                        <div class='d-flex flex-row'>
+                            <div class=" m-2 "><b>Product Package Type :</b></div>
+                            <div class=" m-2 ">{{stock.product.p_package_type}}</div>
+                        </div>
+                        <div class='d-flex flex-row'>
+                            <div class=" m-2 "><b>Unit :</b></div>
+                            <div class=" m-2 ">{{stock.product.unit_quantity}}{{stock.product.p_units}}</div>
+                        </div>
+                        <div class='d-flex flex-row'>
+                          <div class=" m-2 "><b>Price Per Product :</b></div>
+                          <div class=" m-2 ">&#8377; {{stock.product.price}}</div>
+                        </div>
+                        {% if stock.product.p_type == 'tablets' %}
+                          <div class='d-flex flex-row'>
+                            <div class=" m-2 "><b>Price Per Tablet :</b></div>
+                            <div class=" m-2 ">&#8377; {% widthratio stock.product.price stock.product.p_quantity 1 %}</div>
+                          </div>
+                          {% endif %}
+                        <div class='d-flex flex-row'>
+                          <div class=" m-2 "><b>Stock Price :</b></div>
+                          <div class=" m-2 ">&#8377; {{stock_price}}</div>
+                        </div>
+                        
+                      
+                        <div class='d-flex flex-row'>
+                          <div class=" m-2 "><b>Expiry Date :</b></div>
+                          <div class=" m-2 ">{% if stock.product.expiry_date %}{{stock.product.expiry_date}}{% else %}-{% endif %}</div>
+                        </div>
+                          
+
+                          <div class='d-flex flex-row'>
+                            <div class=" m-2 "><b>Created At :</b></div>
+                            <div class=" m-2 ">{{stock.product.created_at}}</div>
+                        </div>
+                          <div class='d-flex flex-row'>
+                              <div class=" m-2 "><b>Updated At :</b></div>
+                              <div class=" m-2 ">{{stock.product.updated_at}}</div>
+                          </div>
+                      </div>
+                      {% endif %} 
+                      
+                    </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        {% comment %} {% include "includes/footer.html" %} {% endcomment %}
+      
+      </div>
+  </div>
+
+
+  <!-- edit pharmacy Modal start -->
+<div class="modal fade" id="Edit_Project" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="margin-left: 175px;">
+          <h5 class="modal-title text-center" id="exampleModalLongTitle">Edit Pharmacy</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form  id='edit_pharmacy' method="POST" action="{% url 'store:edit_pharmacy' %}"  onsubmit="Loader(this.id)"> 
+          {% csrf_token %}
+        <div class="modal-body">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Name</label>
+              <input type="text" name="e_name"  class="form-control" id="e_name" placeholder="Enter Project Name">
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Description</label>
+              <input type="text" name="e_description"  class="form-control" id="e_description" placeholder="Enter Pharmacy Name">
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Address</label>
+              <input type="text" name="e_address"  class="form-control" id="e_address" placeholder="Enter Address">
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Post Code</label>
+              <input type="text" name="e_postcode"  class="form-control" id="e_postcode" placeholder="Enter Post Code">
+            </div>
+            <input type="hidden" name="pharma_id" id="pharma_id"></input>
+        </div>
+         
+        <div class="modal-footer">
+          <button type="submit" id='sub' style="margin-right: 191px;" class="btn btn-primary">Submit</button>
+        </div>
+      </form> 
+      </div>
+    </div>
+  </div>
+  <!-- end of edit pharmacy Modal -->
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+<script>
+    function clicked(id){
+      $('#pharma_id').val(id)
+        $.ajax({
+          url:"/store/get-previous-pharma/{{id}}" +id,
+          type:"GET",
+          //dataType : 'json',
+          success: function( response ) 
+            {
+                $('#e_name').val(response.name)
+                $('#e_description').val(response.description)
+                $('#e_address').val(response.address)
+                $('#e_postcode').val(response.postcode)
+            }
+        })
+       }
+    </script> 
+
+    <script>
+        $("#edit_pharmacy").validate({
+          rules: {
+            e_name: {
+                 required: true,
+            },              
+            e_description: {
+                 required: true,
+            },       
+            e_address: {
+                required: true,
+           },      
+           e_postcode: {
+            required: true,
+       },        
+        },
+           
+        messages: {
+          e_name: "Please Enter Pharmacy Name", 
+          e_description: "Please Enter Description",             
+          e_address: "Please Enter Addres",             
+          e_postcode: "Please Enter Post Code",             
+      }
+    })
+    </script>  
+
+
+{% endblock javascripts %}

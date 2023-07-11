@@ -1,0 +1,94 @@
+
+{% load static %}
+<footer>
+    <div class="copyright-footer">
+        <p class="mb-0 text-center">Copyright <span id="full_year"></span> | Shaxify. All right reserved.    
+        </p>
+    </div>
+</footer>
+</div>
+<script src="{% static 'admin-assets/js/jquery-3.6.0.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
+<script src="{% static 'admin-assets/js/feather.min.js' %}"></script>
+<script src="{% static 'admin-assets/js/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'admin-assets/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'admin-assets/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'admin-assets/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'admin-assets/js/apexcharts.min.js' %}"></script>
+<script src="{% static 'admin-assets/js/script.js' %}"></script>
+<script src="{% static 'admin-assets/js/validate.js' %}"></script>
+<script src="{% static 'admin-assets/js/additional-methods.min.js' %}"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<script>
+    function Loader(formID) {
+        if ($('#'+formID).length){
+            if ($('#'+formID).valid()){
+                $('body').append('<div id="loading"><i class="fas fa-spinner"></i></div>');
+                $('body').css('pointer-events','none');
+                $('.btn').css('pointer-events','none');
+            }
+        }else{
+            $('body').append('<div id="loading"><i class="fas fa-spinner"></i></div>');
+            $('body').css('pointer-events','none');
+            $('.btn').css('pointer-events','none');
+        }
+    }
+</script>
+</body>
+</html>
+<script type="text/javascript">
+
+    $("#login").validate({
+        rules: {
+            email: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                }
+            },
+            password: {
+                required: true, 
+                minlength: 8,
+                maxlength: 35,
+            },
+        },
+        messages: {
+            email: {
+                required: "Please Enter Your Email Address",
+                
+            },
+            password: {
+                required: "Please Enter Your Password",
+                minlength: "At least 8 characters required!",
+                maxlength: "At most 35 characters only!"
+            },
+        }
+    });
+    $(document).ready(function () {
+        $("#email").keyup(function () {
+            var email = $('#email').val();
+            if (email != '' && email != 'undefined' && email != ' ') {
+                $.ajax({
+                    url: "/accounts/validations/",
+                    type: 'GET',
+                    data: { 'email': email },
+                    success: function (data) {
+                        if (data.valid == 1) {
+                            $(".email-error").html("");
+                            $(".btn").prop('disabled', false);
+                        }
+                        else {
+                            $(".email-error").html("Please enter a valid email address.");
+                            $(".btn").prop('disabled', true);
+                        }
+                    }
+                });
+            }
+            else {
+                $(".email-error").html("");
+                $(".btn").prop('disabled', false);
+            }
+        });
+    });
+</script>

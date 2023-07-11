@@ -1,0 +1,270 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tables {% endblock title %}
+{% load static %}
+{% block content %}
+
+<style>
+  .error{
+    color:red;
+  }
+  .active1{
+    width: 22px;
+    border: 1px solid;
+    text-align: center;
+    background: #5e72e4;
+    margin-left:5px;
+    margin-right:5px
+  }
+  .pagination li a{
+    margin-left:5px;
+    margin-right:5px;
+  }
+</style>  
+
+
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Category</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="{% url 'frontend:index' %}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{% url 'store:add_pharmacy' %}">Category</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Category List</li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col-lg-6 col-5 text-right">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-sm btn-neutral" data-toggle="modal" data-target="#Add_Project">Add Category</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- add Pahrmacy Modal start -->
+<div class="modal fade" id="Add_Project" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="margin-left: 175px;">
+        <h5 class="modal-title text-center" id="exampleModalLongTitle">Add Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form  id='pharmacy_form' method="POST" action="{% url 'store:add_category' %}"  onsubmit="Loader(this.id)"> 
+        {% csrf_token %}
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Name</label>
+            <input type="text" name="title"  class="form-control" id="title" placeholder="Enter Project Name">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Description</label>
+            <input type="text" name="description"  class="form-control" id="description" placeholder="Enter Pharmacy Name">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" id='sub' style="margin-right: 191px;" class="btn btn-primary">Submit</button>
+      </div>
+    </form> 
+    </div>
+  </div>
+</div>
+<!-- end of add pharmacy Modal -->
+
+
+<!-- edit pharmacy Modal start -->
+<div class="modal fade" id="Edit_Project" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="margin-left: 175px;">
+        <h5 class="modal-title text-center" id="exampleModalLongTitle">Edit Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="edit_project_form" method="POST" action="{% url 'store:edit_category' %}">
+        {% csrf_token %}
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Name</label>
+            <input type="text" name="e_name"  class="form-control" id="e_name">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Description</label>
+            <input type="text" name="e_description"  class="form-control" id="e_description">
+          </div>
+          <input type="hidden" name="cat_id" id="cat_id"></input>
+          {% comment %} <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Project Name</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div> {% endcomment %}
+      </div>
+      <div class="modal-footer">
+        {% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Submit</button> {% endcomment %}
+        <button type="submit" style="margin-right: 191px;" class="btn btn-primary">Submit</button>
+      </div>
+    </form> 
+    </div>
+  </div>
+</div>
+<!-- end of edit pharmacy Modal -->
+  
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    
+    <!-- Dark table -->
+    <div class="row">
+      <div class="col">
+        <div class="card bg-default shadow">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="text-white mb-0">Category List</h3>
+          </div>
+          <div class="table-responsive">
+            <table id="" class="table align-items-center table-dark table-flush">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" >Name</th>
+                  <th scope="col" >Description</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tr>
+                <form action="{% url 'store:add_category' %}" method='GET'>
+                    <td ><input type='text' name='title' value="{% if title %}{{title}}{% else %}{% endif %}"></td>
+                    <td ><input type='text'  name='description' value="{% if description %}{{description}}{% else %}{% endif %}"></td>
+                  
+                    <td ><button type='submit' class='btn btn-primary btn-sm'>Search</button></td>
+                </form>
+              </tr>
+              
+              <tbody class="list">
+              {% for cat in category %}
+
+                <tr>
+                  <th scope="row">
+                        <span class="name mb-0 text-sm">{{cat.title|truncatechars:40}}</span>
+                  </th>
+
+                  <td class="description">
+                   <span aria-hidden="true"></span> {{cat.description|truncatechars:40}}
+                  </td>
+                
+                  <td class="text-right">
+                      <div class="d-flex align-items-center">
+                        <a class="p-1" href="{% url 'store:view_category' cat.id%}"><i class="fa-solid fa-eye btn btn-primary btn-sm"></i></a>
+                        <a class="p-1" onclick="clicked({{cat.id}})" data-toggle="modal" data-target="#Edit_Project" ><i class="fa-solid fa-pen btn btn-success btn-sm"></i></a>
+                        <a class="p-1" href="{% url 'store:delete_category' cat.id%}"><i class="fa-solid fa-trash btn btn-danger btn-sm"></i></a>
+                      </div>
+                    {% comment %} </div> {% endcomment %}
+                  </td>
+                </tr>
+              {% endfor %}
+
+                
+              </tbody>
+            </table>
+
+            <div class='container mx-auto' style='width:fit-content'>
+              {% if category.has_other_pages %}
+              <ul class="pagination">
+                {% if category.has_previous %}
+                  <li><a href="?page={{ category.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in category.paginator.page_range %}
+                  {% if category.number == i %}
+                    <li class="active1"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                  {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if category.has_next %}
+                  <li><a href="?page={{ category.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+              </ul>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include "includes/footer.html" %}
+
+  </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+
+<script>
+function clicked(id){
+  $('#cat_id').val(id)
+    $.ajax({
+      url:"/store/get-previous-category/{{id}}" +id,
+      type:"GET",
+      //dataType : 'json',
+      success: function( response ) 
+        {
+            $('#e_name').val(response.title)
+            $('#e_description').val(response.description)
+        }
+    })
+   }
+</script>  
+ 
+
+<script>
+    $("#edit_project_form").validate({
+      rules: {
+        e_name: {
+             required: true,
+        },              
+        e_description: {
+             required: true,
+        },       
+
+    },
+       
+    messages: {
+      e_name: "Please Enter Name", 
+      e_description: "Please Enter Description",             
+             
+  }
+})
+</script>
+<script>
+  $("#pharmacy_form").validate({
+    rules: {
+      title: {
+           required: true,
+      },              
+      description: {
+           required: true,
+      },       
+
+  },
+     
+  messages: {
+    title: "Please Enter Name", 
+    description: "Please Enter Description",             
+           
+}
+})
+</script>  
+
+
+
+{% endblock javascripts %}

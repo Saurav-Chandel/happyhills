@@ -1,0 +1,366 @@
+
+{% include 'admin/admin-includes/header.html' %}
+{% comment %} {% load static %} {% endcomment %}
+{% comment %} {% load extras %} {% endcomment %}
+
+<div class="sidebar" id="sidebar">
+    <div class="slimScrollDiv">
+        <div class="sidebar-inner slimscroll">
+            <div id="sidebar-menu" class="sidebar-menu">
+                <ul>
+                    <li  class="active" >
+                        <a href="">
+                            <i class="fas fa-tachometer-alt"></i><span> Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="submenu ">
+                        <a href="javascript:void(0);"><i class="fas fa-users"></i><span> Users</span>
+                            <span class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a  href="{% url 'user:users_list' %}">Renters</a></li>
+                            <li><a  href="/users/lenders/">Lenders</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li >
+                        <a href="/users/sub-admin-list/">
+                            <i class="fas fa-user-shield"></i><span> Sub-Admins</span>
+                        </a>
+                    </li>
+                    
+                    <li class="submenu ">
+                        <a href="javascript:void(0);"><i class="fab fa-product-hunt"></i><span> Products</span>
+                            <span class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a  href="/product/category-listing/">Categories</a></li>
+                            <li><a  href="/product/subcategoy-listing/">Sub Categories</a></li>
+                            <li><a  href="/product/product-listing/">Products</a></li>
+                        </ul>
+                    </li>
+                    <li >
+                        <a href="/product/order-listing/">
+                            <i class="fad fa-shopping-cart"></i><span> Orders</span>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/product/transactions-list/">
+                            <i class="fa fa-credit-card"></i><span>Transactions</span>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/users/newsletter-subscription/">
+                            <i class="fas fa-newspaper"></i><span> Newsletter</span>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/product/blogs-listing/">
+                            <i class="fas fa-blog"></i><span> Blogs</span>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/users/banner-list/">
+                            <i class="fas fa-flag"></i><span> Banners</span>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="/contact-us/contact-us-list/">
+                            <i class="fas fa-id-badge"></i><span> Contact Us</span>
+                        </a>
+                    </li>
+                    <li class="submenu ">
+                        <a href="javascript:void(0);"><i class="fas fa-users-cog"></i><span> Settings</span>
+                            <span class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a  href="/static-pages/pages-list/">Pages</a></li>
+                            <li><a  href="/accounts/secret-keys/">Secret Keys</a></li>
+                            <li><a  href="/users/user-reports/">Reports</a></li>
+                            <li><a  href="/backup/">Backup</a></li>
+                            <li><a  href="/accounts/login-history/">Login History</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="submenu ">
+                        <a href="javascript:void(0);"><i class="fas fa-exclamation-circle"></i><span> Logger</span>
+                            <span class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a  href="/logger/error-logs/">Website Logs</a></li>
+                            <li><a  href="/logger/crash-logs/">Application Logs</a></li>
+                            <li><a  href="/logger/email-logs/">Email Logs</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <div class="page-wrapper">
+      <div class="content">
+          <div class="row">
+              <div class="col-xl-3 col-lg-4 col-sm-6 col-12 ">
+                  <a href="/users/renters/" style="color: inherit;" class="d-flex">
+                      <div class="dash-count">
+                          <div class="dash-counts">
+                              <h4>1</h4>
+                              <h5>Renters</h5>
+                          </div>
+                          <div class="dash-imgs">
+                              <span><i class="fas fa-users"></i></span>
+                          </div>
+                      </div>
+                  </a>
+              </div>
+              <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                  <a href="/users/lenders/" style="color: inherit;" class="d-flex">
+                      <div class="dash-count das2">
+                          <div class="dash-counts">
+                              <h4>2</h4>
+                              <h5>Lenders</h5>
+                          </div>
+                          <div class="dash-imgs">
+                              <span><i class="fas fa-users-cog"></i></span>
+                          </div>
+                      </div>
+                  </a>
+              </div>
+              <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                  <a href="/product/product-listing/" style="color: inherit;" class="d-flex">
+                      <div class="dash-count das4">
+                          <div class="dash-counts">
+                              <h4>2</h4>
+                              <h5>Products</h5>
+                          </div>
+                          <div class="dash-imgs">
+                              <span><i class="fab fa-product-hunt"></i></span>
+                          </div>
+                      </div>
+                  </a>
+              </div>
+              <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                  <a href="/users/banner-list/" style="color: inherit;" class="d-flex">
+                      <div class="dash-count das3">
+                          <div class="dash-counts">
+                              <h4>1</h4>
+                              <h5>Banners</h5>
+                          </div>
+                          <div class="dash-imgs">
+                              <span><i class="fas fa-flag"></i></span>
+                          </div>
+                      </div>
+                  </a>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-xl-7 col-md-12 ">
+                  <div class="card flex-fill shadow">
+                      <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                          <h5 class="card-title mb-0">Products </h5>
+                      </div>
+                      <div class="card-body">
+                          <div id="products" class="apex-charts" data-url="/accounts/rented-products/" ></div>
+                      </div>
+                  </div>
+              </div>    
+              <div class="col-xl-5 col-md-12 ">
+                  <div class="card flex-fill shadow">
+                      <div class="card-header pb-0 d-md-flex justify-content-between align-items-center">
+                          <h5 class="card-title mb-0">Users Registered in <span id="selected_year"></span>(<span id="selected_month"></span>)</h5>
+                          <div class="graph-sets mt-md-0 mt-2">
+                              <div class="dropdown d-flex">
+                                  <select class="graph-dropdown me-2" name="months" id="months" onchange="GetGraphData(this.value)">
+                                      <option value="">Select</option>
+                                      <option value="1">January</option>
+                                      <option value="2">February</option>
+                                      <option value="3">March</option>
+                                      <option value="4">April</option>
+                                      <option value="5">May</option>
+                                      <option value="6">June</option>
+                                      <option value="7">July</option>
+                                      <option value="8">August</option>
+                                      <option value="9">September</option>
+                                      <option value="10">October</option>
+                                      <option value="11">November</option>
+                                      <option value="12">December</option>
+                                  </select>
+                                  <select class="graph-dropdown" name="years" id="years" onchange="GetGraphData(this.value)"></select>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                          <div class="row">
+                              <div class="col-12">
+                                  <div id="chart-container"></div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                          <div id="user_graph"></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-xl-12 col-md-12 mt-3 ">
+              <div class="card flex-fill shadow">
+                  <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                      <h5 class="card-title mb-0">Revenue </h5>
+                      
+                  </div>
+                  <div class="card-body">
+                      <div id="revenue" class="apex-charts" data-url="/accounts/weekly-revenue-graph/" ></div>
+                  </div>
+              </div>
+          </div>    
+          
+      </div>
+  </div>
+
+ 
+{% include 'admin/admin-includes/footer.html' %}    
+
+
+<script>
+  // Refresh page on Browser Back Button to Remove the Loader
+  (function () {
+      window.onpageshow = function(event) {
+          if (event.persisted) {
+              window.location.reload();
+          }
+      };
+  })();
+  function Loader(formID) {
+      if ($('#'+formID).length){
+          if ($('#'+formID).valid()){
+              $('body').append('<div id="loading"><i class="fas fa-spinner"></i></div>');
+              $('body').css('pointer-events','none');
+              $('.btn').css('pointer-events','none');
+          }
+      }else{
+          $('body').append('<div id="loading"><i class="fas fa-spinner"></i></div>');
+          $('body').css('pointer-events','none');
+          $('.btn').css('pointer-events','none');
+      }
+  }
+
+  $(document).ready( function () {
+      $('#full_year').text(new Date().getFullYear());
+  });
+
+  
+  if($('.clickable-row').length > 0 ){
+  $(document).on('click', '.clickable-row', function() {
+    window.location = $(this).data("href");
+  });
+}
+
+  $('.show_confirm').click(function(event) {
+      var href = $(this).attr('url_link')
+      event.preventDefault();        
+      swal({
+          title: `Are you sure you want to delete this record?`,
+          text: "",
+          icon: "warning",
+          buttons: true,
+      })
+      .then((willDelete) => {
+          if (willDelete) {
+              location.href=href
+          }
+      });
+  });
+  $('.shows_confirm').click(function(event) {
+      var href = $(this).attr('url_link')
+      event.preventDefault();        
+      swal({
+          title: `Are you sure you want to delete all the record?`,
+          text: "",
+          icon: "warning",
+          buttons: true,
+      })
+      .then((willDelete) => {
+          if (willDelete) {
+              location.href=href
+          }
+      });
+  });
+  jQuery.validator.addMethod("is_email_exists", 
+  function(value, element) {
+      let is_valid = true
+      $.ajax({
+          url: "/accounts/validations/",
+          type: "GET",
+          data: { email: value},
+          async:false,
+          success: function (data) {
+              if(data.email_exists == true){
+                  is_valid = false
+              }else{
+                  is_valid =  true
+              }
+            
+          },
+        });        
+      return is_valid
+  },'This email is already exists, please choose another.');
+
+  jQuery.validator.addMethod("is_mobile_exists", 
+  function(value, element) {
+      let is_valid = true
+      $.ajax({
+          url: "/accounts/validations/",
+          type: "GET",
+          data: { mobile_no: value },
+          async:false,
+          success: function (data) {
+              if(data.mobile_no == true){
+                  is_valid = false
+              }else{
+                  is_valid =  true
+              }
+            
+          },
+        });        
+      return is_valid
+  },'This phone number is already exists, please choose another.');
+</script>
+
+<script>
+  $.ajax({
+  url: $("#products").attr("data-url"),
+  dataType: 'json',
+  success: function (data) {
+      Highcharts.chart("products", data['chart']);
+  }
+  });
+
+  $.ajax({
+  url: $("#revenue").attr("data-url"),
+  dataType: 'json',
+  success: function (data) {
+      Highcharts.chart("revenue", data['chart']);
+  }
+  });
+
+
+  function GetGraphData(){
+      $.ajax({
+          url: "/accounts/user-graph/",
+          dataType: 'json',
+          data: {
+              'month': $('#months').val(),
+              'year': $('#user-years').val(),
+          },
+          success: function (data) {
+              Highcharts.chart("chart-container", data['chart']);
+              $('#selected_year').text(data['selected_year']);
+              $('#selected_month').text(data['month_name']);
+              $("#years option[value='"+data['selected_year']+"']").attr("selected","selected");
+              $("#months option[value='"+data['selected_month']+"']").attr("selected","selected");
+          }
+      });
+  }
+  GetGraphData();
+  for (i = new Date().getFullYear(); i > new Date().getFullYear() - 5; i--)
+  {
+      $('#years').append($('<option />').val(i).html(i));
+  }
+</script>

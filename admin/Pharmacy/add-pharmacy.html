@@ -1,0 +1,310 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tables {% endblock title %}
+{% load static %}
+{% block content %}
+
+<style>
+  .error{
+    color:red;
+  }
+  .active1{
+    width: 22px;
+    border: 1px solid;
+    text-align: center;
+    background: #5e72e4;
+    margin-left:5px;
+    margin-right:5px
+  }
+  .pagination li a{
+    margin-left:5px;
+    margin-right:5px;
+  }
+</style>  
+
+
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Pharmacy</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="{% url 'frontend:index' %}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{% url 'store:add_pharmacy' %}">Pharmacy</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Pharmacy List</li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col-lg-6 col-5 text-right">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-sm btn-neutral" data-toggle="modal" data-target="#Add_Project">Add Pharmacy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- add Pahrmacy Modal start -->
+<div class="modal fade" id="Add_Project" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="margin-left: 175px;">
+        <h5 class="modal-title text-center" id="exampleModalLongTitle">Add Pharmacy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form  id='pharmacy_form' method="POST" action="{% url 'store:add_pharmacy' %}"  onsubmit="Loader(this.id)"> 
+        {% csrf_token %}
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Name</label>
+            <input type="text" name="name"  class="form-control" id="name" placeholder="Enter Project Name">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Description</label>
+            <input type="text" name="description"  class="form-control" id="description" placeholder="Enter Pharmacy Name">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Address</label>
+            <input type="text" name="address"  class="form-control" id="address" placeholder="Enter Address">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Post Code</label>
+            <input type="text" name="postcode"  class="form-control" id="postcode" placeholder="Enter Post Code">
+          </div>
+      </div>
+       
+      <div class="modal-footer">
+        <button type="submit" id='sub' style="margin-right: 191px;" class="btn btn-primary">Submit</button>
+      </div>
+    </form> 
+    </div>
+  </div>
+</div>
+<!-- end of add pharmacy Modal -->
+
+
+<!-- edit pharmacy Modal start -->
+<div class="modal fade" id="Edit_Project" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="margin-left: 175px;">
+        <h5 class="modal-title text-center" id="exampleModalLongTitle">Edit Pharmacy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form  id='edit_pharmacy' method="POST" action="{% url 'store:edit_pharmacy' %}"  onsubmit="Loader(this.id)"> 
+        {% csrf_token %}
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Name</label>
+            <input type="text" name="e_name"  class="form-control" id="e_name" placeholder="Enter Project Name">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Description</label>
+            <input type="text" name="e_description"  class="form-control" id="e_description" placeholder="Enter Pharmacy Name">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Address</label>
+            <input type="text" name="e_address"  class="form-control" id="e_address" placeholder="Enter Address">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Post Code</label>
+            <input type="text" name="e_postcode"  class="form-control" id="e_postcode" placeholder="Enter Post Code">
+          </div>
+          <input type="hidden" name="pharma_id" id="pharma_id"></input>
+      </div>
+       
+      <div class="modal-footer">
+        <button type="submit" id='sub' style="margin-right: 191px;" class="btn btn-primary">Submit</button>
+      </div>
+    </form> 
+    </div>
+  </div>
+</div>
+<!-- end of edit pharmacy Modal -->
+  
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    
+    <!-- Dark table -->
+    <div class="row">
+      <div class="col">
+        <div class="card bg-default shadow">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="text-white mb-0">Pharmacy List</h3>
+          </div>
+          <div class="table-responsive">
+            <table id="" class="table align-items-center table-dark table-flush">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" >Name</th>
+                  <th scope="col" >Description</th>
+                  <th scope="col" >Address</th>
+                  <th scope="col">Post Code</th>
+                  {% comment %} <th scope="col" class="sort" data-sort="completion">Completion</th> {% endcomment %}
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tr>
+                <form action="{% url 'store:add_pharmacy' %}" method='GET'>
+                    <td ><input type='text' name='name' value="{% if name %}{{name}}{% else %}{% endif %}"></td>
+                    <td ><input type='text'  name='description' value="{% if description %}{{description}}{% else %}{% endif %}"></td>
+                    <td ><input type='text'  name='address' value="{% if address %}{{address}}{% else %}{% endif %}"></td>
+                    <td ><input type='text'  name='postcode' value="{% if postcode %}{{postcode}}{% else %}{% endif %}"></td>
+                    <td ><button type='submit' class='btn btn-primary btn-sm'>Search</button></td>
+                </form>
+              </tr>
+              
+              <tbody class="list">
+              {% for pharma in pharmacy %}
+
+                <tr>
+                  <th scope="row">
+                        <span class="name mb-0 text-sm">{{pharma.name|truncatechars:40}}</span>
+                  </th>
+
+                  <td class="description">
+                   <span aria-hidden="true"></span> {{pharma.description|truncatechars:30}}
+                  </td>
+
+                  <td class="address">
+                    <span aria-hidden="true"></span> {{pharma.address|truncatechars:30}}
+                  </td>
+
+                  <td class="post_code">
+                    <span aria-hidden="true"></span> {{pharma.postcode|truncatechars:30}}
+                   </td>
+                
+                  <td class="text-right">
+                      <div class="d-flex align-items-center">
+                        <a class="p-1" href="{% url 'store:view_pharmacy' pharma.id %}"><i class="fa-solid fa-eye btn btn-primary btn-sm"></i></a>
+                        <a class="p-1" onclick="clicked({{pharma.id}})" data-toggle="modal" data-target="#Edit_Project"><i class="fa-solid fa-pen btn btn-success btn-sm"></i></a>
+                        <a class="p-1" href="{% url 'store:delete_pharmacy' pharma.id %}"><i class="fa-solid fa-trash btn btn-danger btn-sm"></i></a>
+                      </div>
+                    {% comment %} </div> {% endcomment %}
+                  </td>
+                </tr>
+              {% endfor %}
+
+                
+              </tbody>
+            </table>
+
+            <div class='container mx-auto' style='width:fit-content'>
+              {% if pharmacy.has_other_pages %}
+              <ul class="pagination">
+                {% if pharmacy.has_previous %}
+                  <li><a href="?page={{ pharmacy.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in pharmacy.paginator.page_range %}
+                  {% if pharmacy.number == i %}
+                    <li class="active1"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                  {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if pharmacy.has_next %}
+                  <li><a href="?page={{ pharmacy.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+              </ul>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include "includes/footer.html" %}
+
+  </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+<script>
+function clicked(id){
+  $('#pharma_id').val(id)
+    $.ajax({
+      url:"/store/get-previous-pharma/{{id}}" +id,
+      type:"GET",
+      //dataType : 'json',
+      success: function( response ) 
+        {
+          console.log(response)
+            $('#e_name').val(response.name)
+            $('#e_description').val(response.description)
+            $('#e_address').val(response.address)
+            $('#e_postcode').val(response.postcode)
+        }
+    })
+   }
+</script>  
+
+<script>
+    $("#edit_pharmacy").validate({
+      rules: {
+        e_name: {
+             required: true,
+        },              
+        e_description: {
+             required: true,
+        },       
+        e_address: {
+            required: true,
+       },      
+       e_postcode: {
+        required: true,
+   },        
+    },
+       
+    messages: {
+      e_name: "Please Enter Pharmacy Name", 
+      e_description: "Please Enter Description",             
+      e_address: "Please Enter Addres",             
+      e_postcode: "Please Enter Post Code",             
+  }
+})
+</script> 
+
+
+<script>
+  $("#pharmacy_form").validate({
+    rules: {
+      name: {
+           required: true,
+      },              
+      description: {
+           required: true,
+      },       
+      address: {
+          required: true,
+     },      
+     postcode: {
+      required: true,
+ },        
+  },
+     
+  messages: {
+    name: "Please Enter Pharmacy Name", 
+    description: "Please Enter Description",             
+    address: "Please Enter Addres",             
+    postcode: "Please Enter Post Code",             
+}
+})
+</script> 
+
+
+
+{% endblock javascripts %}

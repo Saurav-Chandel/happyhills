@@ -1,0 +1,145 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="description" content="POS - Bootstrap Admin Template">
+    <meta name="keywords"
+        content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern,  html5, responsive">
+    <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Shaxify</title>
+    {% comment %} <link rel="shortcut icon" href="/static/admin-assets/images/favicon.ico" /> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'admin-assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin-assets/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'admin-assets/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin-assets/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin-assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'admin-assets/css/flash.css' %}">
+    <link rel="stylesheet" href="{% static 'admin-assets/css/loader.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="https://codepen.io/fancyapps/pen/Kxdwjj.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+</head>
+
+<script src="{% static 'admin-assets/js/moment.min.js' %}"></script>
+    <script>
+        function ConvertGTime(createdate, createtime) {
+            var d = createdate + "T" + createtime + "Z";
+            const date = d;
+            const local = moment.utc(date).local().format("Do MMM YYYY hh:mm A");
+            return local;
+        }
+    </script>
+
+
+<body>
+{% comment %} {% load static %} {% endcomment %}
+
+<div class="account-content">
+  <div class="login-wrapper justify-content-center">
+      <div class="login-content">
+          <div class="login-userset">
+              <form id="login" onsubmit="Loader(this.id)" action="{% url 'accounts:login' %}" method="POST" class="mt-30">
+                  {% csrf_token %}
+                  <a href="/" class="login-logo">
+                      <img src="/static/admin-assets/images/logo.png" alt="logo" class="me-2">                        
+                  </a>
+                 <div class="login-form-wrapper">
+                      <div class="login-userheading">
+                          <h3>Sign In</h3>
+                          <h4>Please login to your account</h4>
+                      </div>
+                      <div class="form-login required-field">
+                          <label class="form-label">Email</label>
+                          <div class="form-addons">
+                              <input type="text" class='input-color' placeholder="Please Enter Your Email Address"  name="email" id="email">
+                              <img src="/static/admin-assets/fonts/mail.svg" alt="img">
+                              <label class="email-error error"></label>
+                          </div>
+                      </div>
+                      <div class="form-login required-field">
+                          <label class="form-label">Password</label>
+                          <div class="pass-group">
+                              <input type="password" id="password" name="password" class="pass-input input-color"  autocomplete="on" placeholder="Please Enter Your Password">
+                              <span class="fas toggle-password fa-eye-slash"></span>
+                          </div>
+                      </div>
+                      <div class="form-login">
+                          <div class="alreadyuser text-end">
+                              <h4><a href="/accounts/forgot-password-email/" class="hover-a">Forgot Password?</a></h4>
+                          </div>
+                      </div>
+                      <div class="form-login">
+                          <button type="submit" class="btn btn-login">Sign In</button>
+                      </div>
+                 </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+
+{% comment %} {% include 'admin/admin-includes/footer.html' %} {% endcomment %}
+
+<script type="text/javascript">
+
+  $("#login").validate({
+      rules: {
+          email: {
+              required: true,
+              normalizer: function (value) {
+                  return $.trim(value);
+              }
+          },
+          password: {
+              required: true, 
+              minlength: 8,
+              maxlength: 35,
+          },
+      },
+      messages: {
+          email: {
+              required: "Please Enter Your Email Address",
+              
+          },
+          password: {
+              required: "Please Enter Your Password",
+              minlength: "At least 8 characters required!",
+              maxlength: "At most 35 characters only!"
+          },
+      }
+  });
+  $(document).ready(function () {
+      $("#email").keyup(function () {
+          var email = $('#email').val();
+          if (email != '' && email != 'undefined' && email != ' ') {
+              $.ajax({
+                  url: "/accounts/validations/",
+                  type: 'GET',
+                  data: { 'email': email },
+                  success: function (data) {
+                      if (data.valid == 1) {
+                          $(".email-error").html("");
+                          $(".btn").prop('disabled', false);
+                      }
+                      else {
+                          $(".email-error").html("Please enter a valid email address.");
+                          $(".btn").prop('disabled', true);
+                      }
+                  }
+              });
+          }
+          else {
+              $(".email-error").html("");
+              $(".btn").prop('disabled', false);
+          }
+      });
+  });
+</script>

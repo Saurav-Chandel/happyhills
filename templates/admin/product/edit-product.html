@@ -1,0 +1,249 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tables {% endblock title %}
+{% load static %}
+{% block content %}
+
+
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Product</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="{% url 'frontend:index' %}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{% url 'store:product_listing' %}">Product</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Product</li>
+              </ol>
+            </nav>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Dark table -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+          <div class="col-xl-12 order-xl-1">
+            <div class="card">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col-8">
+                    <h3 class="mb-0">Edit Product</h3>
+                  </div>
+                  {% comment %} <div class="col-4 text-right">
+                    <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+                  </div> {% endcomment %}
+                </div>
+              </div>
+              <div class="card-body">
+                <form id='add_product' action="{% url 'store:edit_product' product.id%}" method='POST'>
+                    {% csrf_token %}
+                  {% comment %} <h6 class="heading-small text-muted mb-4">User information</h6> {% endcomment %}
+                  <div class="pl-lg-4">
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-username">Name</label>
+                          <input type="text" id="name" name='name' value='{% if product.name %} {{product.name}}{% else %}-{% endif %}' class="form-control" placeholder="Product Name" >
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-email">description</label>
+                          <input type="text" id="description" value='{% if product.description %} {{product.description}}{% else %}-{% endif %}' name='description' class="form-control" placeholder="Product Description">
+                        </div>
+                      </div>
+                    </div>
+    
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-first-name">category</label>
+                          <select class="form-control" name='category' aria-label="Default select example">
+                            <option value>Select product Category</option>
+                            {% for cat in category %}
+                            <option {% if product.category.id == cat.id %}selected{% else %}{% endif %} value='{{cat.id}}'>{{cat.title}}</option>
+                            {% endfor %}
+                          </select>                       
+                        </div>
+                      </div>
+                      
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-last-name">Product Type</label>
+                          <select class="form-control" name='product_type' id='product_type' aria-label="Default select example">
+                            <option value>Select Product Type</option>
+                            {% for i,j in p_type %}
+                            <option {% if product.p_type == j %}selected{% else %}{% endif %} value={{j}}>{{j}}</option>
+                            {% endfor %}
+                            
+                          </select>  
+                         
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-last-name">Product Package Type</label>
+                          <select class="form-control" name='product_package_type' aria-label="Default select example">
+                            <option value>Select Product Package Type</option>
+                            {% for i,j in p_package_type %}
+                            <option {% if product.p_package_type == i %}selected{% else %}{% endif %} value={{i}}>{{j}}</option>
+                            {% endfor %}
+                          </select>  
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-email">Product Unit</label>
+                          <select class="form-control" name='p_unit' aria-label="Default select example">
+                            <option value>Select Product Unit</option>
+                            {% for i,j in measurement %}
+                            <option {% if product.p_units == i %}selected{% else %}{% endif %} value={{i}}>{{j}}</option>
+                            {% endfor %}
+                          </select> 
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                 
+                  <div class="pl-lg-4">
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-country">Unit Quantity</label>
+                          <input type="number" value='{% if product.unit_quantity %}{{product.unit_quantity}}{% else %}-{% endif %}' id="unit_quantity" name='unit_quantity' class="form-control" placeholder="Quantity">
+                        </div>
+                      </div>
+                      
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-city">Price</label>
+                          <input type="number" value='{% if product.price %}{{product.price}}{% else %}-{% endif %}' id="Price" name='Price' class="form-control" placeholder="&#8377; Enter Price">
+                        </div>
+                      </div>
+
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-country">Product Quantity</label>
+                          <input type="number" value='{% if product.p_quantity %}{{product.p_quantity}}{% else %}-{% endif %}' id="quantity" name='quantity' class="form-control" placeholder="Quantity">
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-country">Flavour</label>
+                          <input type="text" value='{% if product.flavour %}{{product.flavour}}{% else %}{% endif %}' id="flavour" name='flavour' class="form-control" placeholder="Enter Flavour" >
+                        </div>
+                      </div>
+                      
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-country">Expiry date</label>
+                          <input type="date"  id="expiry_date" name='expiry_date' class="form-control" >
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  {% comment %} <hr class="my-4" /> {% endcomment %}
+                  <!-- Description -->
+                  {% comment %} <h6 class="heading-small text-muted mb-4">About me</h6> {% endcomment %}
+                  <div class="pl-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">How It Use</label>
+                      <textarea rows="4" class="form-control"  name='how_it_works' placeholder="Procedure about how to use this product">{% if product.how_it_works %}{{product.how_it_works}}{% else %}{% endif %}</textarea>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Save</button>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        {% include "includes/footer.html" %}
+      
+      </div>
+
+
+
+  </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+
+<script>
+function clicked(id){
+  $('#project_id').val(id)
+    $.ajax({
+      url:"/get-privous-project/{{id}}" +id,
+      type:"GET",
+      //dataType : 'json',
+      success: function( response ) 
+        {
+            $('#edit_name').val(response.project_title)
+            $('#edit_budget').val(response.project_budget)
+        }
+    })
+   }
+</script>  
+
+<script>
+    $("#add_product").validate({
+      rules: {
+        name: {
+             required: true,
+        },              
+        description: {
+             required: true,
+        },       
+        category: {
+            required: true,
+       },
+       product_type: {
+            required: true,
+       },        
+       product_package_type: {
+        required: true,
+       }, 
+       p_unit: {
+        required: true,
+       }, 
+       unit_quantity :{
+        required: true,
+       }, 
+       quantity :{
+        required: true,
+       }, 
+                  
+    },
+       
+    messages: {
+      name: "Please Enter Pharmacy Name", 
+      description: "Please Enter Description",             
+      category: "Please Enter Addres",             
+      product_type: "Please Enter Product Type",             
+      product_package_type: "Please Enter Product Package Type",             
+      p_unit: "Please Enter Unit",             
+      unit_quantity: "Please Enter Unit Quantity",             
+      price: "Please Enter Price",             
+      quantity: "Please Enter Quantity",             
+  }
+})
+</script> 
+
+
+
+{% endblock javascripts %}

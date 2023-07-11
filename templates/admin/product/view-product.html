@@ -1,0 +1,286 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tables {% endblock title %}
+{% load static %}
+{% block content %}
+
+<style>
+    .card-body {
+        border: 1px solid;
+        padding: 2px;
+        margin: 27px;
+    }
+</style>    
+
+
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+        
+         
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Dark table -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+          <div class="col-xl-12 order-xl-1">
+            <div class="card">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col-8">
+                    <h3 class="mb-0">Pharmacy Information</h3>
+
+                    
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="card-body">
+                 <div class="d-flex flex-column   mb-3">
+                    {% if product %}
+                    <div class=" ">
+                        <div class='d-flex flex-row-reverse'>
+                            <div class="btn btn-success btn-sm"><a href="{% url 'store:edit_product' product.id %}">Edit</a></div>
+                        </div>
+                        <div class='d-flex flex-row'>
+                            <div class=" m-2 "><b>Name :</b></div>
+                            <div class=" m-2 ">{{product.name}}</div>
+                        </div>
+                         <div class='d-flex flex-row'>
+                            <div class=" m-2 "><b>Description :</b></div>
+                            <div class=" m-2 ">{{product.description}}</div>
+                        </div>
+                        <div class='d-flex flex-row'>
+                            <div class=" m-2 "><b>Product Type :</b></div>
+                            <div class=" m-2 ">{{product.p_type}}</div>
+                        </div>
+                        <div class='d-flex flex-row'>
+                            <div class=" m-2 "><b>Product Package Type :</b></div>
+                            <div class=" m-2 ">{{product.p_package_type}}</div>
+                        </div>
+                        <div class='d-flex flex-row'>
+                            <div class=" m-2 "><b>Unit :</b></div>
+                            <div class=" m-2 ">{{product.unit_quantity}}{{product.p_units}}</div>
+                        </div>
+
+                        <div class='d-flex flex-row'>
+                          <div class=" m-2 "><b>Quantity :</b></div>
+                          <div class=" m-2 ">{% if product.p_quantity %}{{product.p_quantity}} {{product.p_type}} per {{product.p_package_type}}{% else %}-{% endif %}</div>
+                        </div>
+                        <div class='d-flex flex-row'>
+                          <div class=" m-2 "><b>Product Price  :</b></div>
+                          <div class=" m-2 ">&#8377; {{product.price}}</div>
+                        </div>
+
+                        {% if product.p_type == 'tablets' %}
+                        <div class='d-flex flex-row'>
+                          <div class=" m-2 "><b>Price Per Tablet :</b></div>
+                          <div class=" m-2 ">&#8377; {% widthratio product.price product.p_quantity 1 %}</div>
+                        </div>
+                        {% endif %}
+
+                        <div class='d-flex flex-row'>
+                          <div class=" m-2 "><b>Flavour :</b></div>
+                          <div class=" m-2 ">{% if product.flavour %}{{product.flavour}}{% else %}-{% endif %}</div>
+                        </div>
+
+                        <div class='d-flex flex-row'>
+                          <div class=" m-2 "><b>How To Use :</b></div>
+                          <div class=" m-2 ">{% if product.how_it_works %}{{product.how_it_works}}{% else %}-{% endif %}</div>
+                        </div>
+                        
+                        <div class='d-flex flex-row'>
+                          <div class=" m-2 "><b>Expiry Date :</b></div>
+                          <div class=" m-2 ">{% if product.expiry_date %}{{product.expiry_date}}{% else %}-{% endif %}</div>
+                        </div>
+                        <div class='d-flex flex-row'>
+                          <div class=" m-2 "><b>Created At :</b></div>
+                          <div class=" m-2 ">{{product.created_at}}</div>
+                      </div>
+                        <div class='d-flex flex-row'>
+                            <div class=" m-2 "><b>Updated At :</b></div>
+                            <div class=" m-2 ">{{product.updated_at}}</div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                </div> 
+
+
+
+                {% comment %} <div class="flex font-sans">
+                  <div class="flex-none w-48 relative">
+                    <img src="/classic-utility-jacket.jpg" alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                  </div>
+                  <form class="flex-auto p-6">
+                    <div class="flex flex-wrap">
+                      <h1 class="flex-auto text-lg font-semibold text-slate-900">
+                        Classic Utility Jacket
+                      </h1>
+                      <div class="text-lg font-semibold text-slate-500">
+                        $110.00
+                      </div>
+                      <div class="w-full flex-none text-sm font-medium text-slate-700 mt-2">
+                        In stock
+                      </div>
+                    </div>
+                    <div class="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200">
+                      <div class="space-x-2 flex text-sm">
+                        <label>
+                          <input class="sr-only peer" name="size" type="radio" value="xs" checked />
+                          <div class="w-9 h-9 rounded-lg flex items-center justify-center text-slate-700 peer-checked:font-semibold peer-checked:bg-slate-900 peer-checked:text-white">
+                            XS
+                          </div>
+                        </label>
+                        <label>
+                          <input class="sr-only peer" name="size" type="radio" value="s" />
+                          <div class="w-9 h-9 rounded-lg flex items-center justify-center text-slate-700 peer-checked:font-semibold peer-checked:bg-slate-900 peer-checked:text-white">
+                            S
+                          </div>
+                        </label>
+                        <label>
+                          <input class="sr-only peer" name="size" type="radio" value="m" />
+                          <div class="w-9 h-9 rounded-lg flex items-center justify-center text-slate-700 peer-checked:font-semibold peer-checked:bg-slate-900 peer-checked:text-white">
+                            M
+                          </div>
+                        </label>
+                        <label>
+                          <input class="sr-only peer" name="size" type="radio" value="l" />
+                          <div class="w-9 h-9 rounded-lg flex items-center justify-center text-slate-700 peer-checked:font-semibold peer-checked:bg-slate-900 peer-checked:text-white">
+                            L
+                          </div>
+                        </label>
+                        <label>
+                          <input class="sr-only peer" name="size" type="radio" value="xl" />
+                          <div class="w-9 h-9 rounded-lg flex items-center justify-center text-slate-700 peer-checked:font-semibold peer-checked:bg-slate-900 peer-checked:text-white">
+                            XL
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="flex space-x-4 mb-6 text-sm font-medium">
+                      <div class="flex-auto flex space-x-4">
+                        <button class="h-10 px-6 font-semibold rounded-md bg-black text-white" type="submit">
+                          Buy now
+                        </button>
+                        <button class="h-10 px-6 font-semibold rounded-md border border-slate-200 text-slate-900" type="button">
+                          Add to bag
+                        </button>
+                      </div>
+                      <button class="flex-none flex items-center justify-center w-9 h-9 rounded-md text-slate-300 border border-slate-200" type="button" aria-label="Like">
+                        <svg width="20" height="20" fill="currentColor" aria-hidden="true">
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                        </svg>
+                      </button>
+                    </div>
+                    <p class="text-sm text-slate-700">
+                      Free shipping on all continental US orders.
+                    </p>
+                  </form>
+                </div> {% endcomment %}
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      
+      
+      </div>
+  </div>
+
+
+  <!-- edit pharmacy Modal start -->
+<div class="modal fade" id="Edit_Project" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="margin-left: 175px;">
+          <h5 class="modal-title text-center" id="exampleModalLongTitle">Edit Pharmacy</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form  id='edit_pharmacy' method="POST" action="{% url 'store:edit_pharmacy' %}"  onsubmit="Loader(this.id)"> 
+          {% csrf_token %}
+        <div class="modal-body">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Name</label>
+              <input type="text" name="e_name"  class="form-control" id="e_name" placeholder="Enter Project Name">
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Description</label>
+              <input type="text" name="e_description"  class="form-control" id="e_description" placeholder="Enter Pharmacy Name">
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Address</label>
+              <input type="text" name="e_address"  class="form-control" id="e_address" placeholder="Enter Address">
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Post Code</label>
+              <input type="text" name="e_postcode"  class="form-control" id="e_postcode" placeholder="Enter Post Code">
+            </div>
+            <input type="hidden" name="pharma_id" id="pharma_id"></input>
+        </div>
+         
+        <div class="modal-footer">
+          <button type="submit" id='sub' style="margin-right: 191px;" class="btn btn-primary">Submit</button>
+        </div>
+      </form> 
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block javascripts %}
+
+<script>
+    function clicked(id){
+      $('#pharma_id').val(id)
+        $.ajax({
+          url:"/store/get-previous-pharma/{{id}}" +id,
+          type:"GET",
+          //dataType : 'json',
+          success: function( response ) 
+            {
+                $('#e_name').val(response.name)
+                $('#e_description').val(response.description)
+                $('#e_address').val(response.address)
+                $('#e_postcode').val(response.postcode)
+            }
+        })
+       }
+    </script> 
+
+    <script>
+        $("#edit_pharmacy").validate({
+          rules: {
+            e_name: {
+                 required: true,
+            },              
+            e_description: {
+                 required: true,
+            },       
+            e_address: {
+                required: true,
+           },      
+           e_postcode: {
+            required: true,
+       },        
+        },
+           
+        messages: {
+          e_name: "Please Enter Pharmacy Name", 
+          e_description: "Please Enter Description",             
+          e_address: "Please Enter Addres",             
+          e_postcode: "Please Enter Post Code",             
+      }
+    })
+    </script>  
+
+
+{% endblock javascripts %}

@@ -1,0 +1,286 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tables {% endblock title %}
+{% load static %}
+{% block content %}
+
+<style>
+  .error{
+    color:red;
+  }
+  .active1{
+    width: 22px;
+    border: 1px solid;
+    text-align: center;
+    background: #5e72e4;
+    margin-left:5px;
+    margin-right:5px
+  }
+  .pagination li a{
+    margin-left:5px;
+    margin-right:5px;
+  }
+</style>  
+
+
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Customer</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="{% url 'frontend:index' %}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{% url 'store:add_pharmacy' %}">Customer</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Customer List</li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col-lg-6 col-5 text-right">
+            <!-- Button trigger modal -->
+            {% comment %} <a href="{% url 'store:add_stock' %}" class="btn btn-sm btn-neutral">Add Customer</a> {% endcomment %}
+            <button type="button" class="btn btn-sm btn-neutral" data-toggle="modal" data-target="#Add_Project">Add Customer</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- add Pahrmacy Modal start -->
+<div class="modal fade" id="Add_Project" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="margin-left: 175px;">
+        <h5 class="modal-title text-center" id="exampleModalLongTitle">Add Customer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form  id='pharmacy_form' method="POST" action="{% url 'store:customer_listing' %}"  onsubmit="Loader(this.id)"> 
+        {% csrf_token %}
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Name</label>
+            <input type="text" name="name"  class="form-control" id="name" placeholder="Enter Project Name">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Phone</label>
+            <input type="text" name="phone"  class="form-control" id="description" placeholder="Enter Pharmacy Name">
+          </div>
+          {% comment %} <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Address</label>
+            <input type="text" name="address"  class="form-control" id="address" placeholder="Enter Address">
+          </div> {% endcomment %}
+         
+      </div>
+       
+      <div class="modal-footer">
+        <button type="submit" id='sub' style="margin-right: 191px;" class="btn btn-primary">Submit</button>
+      </div>
+    </form> 
+    </div>
+  </div>
+</div>
+<!-- end of add pharmacy Modal -->
+
+
+
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    
+    <!-- Dark table -->
+    <div class="row">
+      <div class="col">
+        <div class="card bg-default shadow">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="text-white mb-0">Customer List</h3>
+          </div>
+          <div class="table-responsive">
+            <table id="" class="table align-items-center table-dark table-flush">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" >Name</th>
+                  <th scope="col" >Phone</th>
+                  {% comment %} <th scope="col" >product</th> {% endcomment %}
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tr>
+                <form action="{% url 'store:add_pharmacy' %}" method='GET'>
+                    <td ><input type='text' name='pharma' value="{% if name %}{{name}}{% else %}{% endif %}"></td>
+                    <td ><input type='text'  name='product' value="{% if product %}{{product}}{% else %}{% endif %}"></td>
+                    {% comment %} <td ><input type='text'  name='quantity' value="{% if quantity %}{{quantity}}{% else %}{% endif %}"></td> {% endcomment %}
+                    <td ><button type='submit' class='btn btn-primary btn-sm'>Search</button></td>
+                </form>
+              </tr>
+              
+              <tbody class="list">
+              {% for c in customer %}
+
+                <tr>
+                  <th scope="row">
+                        <span class="name mb-0 text-sm">{{c.first_name|truncatechars:40}}</span>
+                  </th>
+
+                  <td class="description">
+                   <span aria-hidden="true"></span> {{c.phone|truncatechars:30}}
+                  </td>
+
+                  {% comment %} <td class="address">
+                    <span aria-hidden="true"></span> {{s.quantity}} {{s.product.p_package_type}}
+                  </td> {% endcomment %}
+
+                  <td class="text-right">
+                      <div class="d-flex align-items-center">
+                        <a class="p-1" href="{% url 'store:view_customer' c.id %}"><i class="fa-solid fa-eye btn btn-primary btn-sm"></i></a>
+                        <a class="p-1" href=""><i class="fa-solid fa-pen btn btn-success btn-sm"></i></a>
+                        <a class="p-1" href=""><i class="fa-solid fa-trash btn btn-danger btn-sm"></i></a>
+
+                        
+                        <button type="button" class="btn btn-sm btn-neutral" onclick="GetCustomer('{{c.id}}')" data-toggle="modal" data-target="#select_pharmacy">Add Customer Productsss</button>
+                        
+                        {% comment %} <a class="p-1" href="{% url 'store:add_customer_products'  c.id%}"><i class="btn btn-sm btn-neutral">Add Customer Products</i></a> {% endcomment %}
+                      </div>
+                    {% comment %} </div> {% endcomment %}
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+
+            <div class='container mx-auto' style='width:fit-content'>
+              {% if pharmacy.has_other_pages %}
+              <ul class="pagination">
+                {% if pharmacy.has_previous %}
+                  <li><a href="?page={{ pharmacy.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in pharmacy.paginator.page_range %}
+                  {% if pharmacy.number == i %}
+                    <li class="active1"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                  {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if pharmacy.has_next %}
+                  <li><a href="?page={{ pharmacy.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+              </ul>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- add Pahrmacy Modal start -->
+  <div class="modal fade" id="select_pharmacy" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="margin-left: 175px;">
+          <h5 class="modal-title text-center" id="exampleModalLongTitle">Select Pharmacy</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form  id='select_pharmacy' method="GET" action="{% url 'store:add_customer_products' %}"  onsubmit="Loader(this.id)"> 
+          {% comment %} {% csrf_token %} {% endcomment %}
+        <div class="modal-body">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <input type='hidden' id='customer_id'  name='customer_id'>
+              <label class="form-control-label" for="input-username">Pharma</label>
+              
+              <select class="form-control" name='pharmacy' id='pharmacy' aria-label="Default select example">
+                <option value>Select Pharmacy</option>
+                {% for pharma in pharmacy %}
+                <option value='{{pharma.id}}'>{{pharma.name}}</option>
+                {% endfor %}
+              </select> 
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" id='sub' style="margin-right: 191px;" class="btn btn-primary">Submit</button>
+        </div>
+      </form> 
+      </div>
+    </div>
+  </div> 
+  <!-- end of add pharmacy Modal -->  
+
+    {% include "includes/footer.html" %}
+
+  </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+
+<script>
+function GetCustomer(id){
+  $('#customer_id').val(id)
+}
+
+function clicked(id){
+  $('#project_id').val(id)
+    $.ajax({
+      url:"/get-privous-project/{{id}}" +id,
+      type:"GET",
+      //dataType : 'json',
+      success: function( response ) 
+        {
+            $('#edit_name').val(response.project_title)
+            $('#edit_budget').val(response.project_budget)
+        }
+    })
+   }
+</script>  
+
+<script>
+  $( document ).ready(function() {
+    var utc = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+    //alert(utc)
+  });
+</script>   
+
+<script>
+    $("#pharmacy_form").validate({
+      rules: {
+        name: {
+             required: true,
+        },              
+        description: {
+             required: true,
+        },       
+        address: {
+            required: true,
+       },      
+       postcode: {
+        required: true,
+   },        
+    },
+       
+    messages: {
+      name: "Please Enter Pharmacy Name", 
+      description: "Please Enter Description",             
+      address: "Please Enter Addres",             
+      postcode: "Please Enter Post Code",             
+  }
+})
+</script> 
+
+
+
+{% endblock javascripts %}
+
+  

@@ -1,0 +1,262 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tables {% endblock title %}
+{% load static %}
+{% block content %}
+
+<style>
+  .error{
+    color:red;
+  }
+  .active1{
+    width: 22px;
+    border: 1px solid;
+    text-align: center;
+    background: #5e72e4;
+    margin-left:5px;
+    margin-right:5px
+  }
+  .pagination li a{
+    margin-left:5px;
+    margin-right:5px;
+  }
+</style>  
+
+
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Product</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="{% url 'frontend:index' %}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{% url 'store:product_listing' %}">Product</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Product List</li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col-lg-6 col-5 text-right">
+            <!-- Button trigger modal -->
+            <a href="{% url 'store:add_product' %}"  class="btn btn-sm btn-neutral" >Add Product</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    
+    <!-- Dark table -->
+    <div class="row">
+      <div class="col">
+        <div class="card bg-default shadow">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="text-white mb-0">Product List</h3>
+          </div>
+          <div class="table-responsive">
+            <table id="" class="table align-items-center table-dark table-flush" >
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" >Product Name</th>
+                  <th scope="col" >Description</th>
+                  <th scope="col" >category</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">expiry_date</th>
+                  <th scope="col">created at</th>
+                  {% comment %} <th scope="col" class="sort" data-sort="completion">Completion</th> {% endcomment %}
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tr>
+                <form action="{% url 'store:product_listing' %}" method='GET'>
+                    <td ><input type='text' name='name' value="{% if name %}{{name}}{% else %}{% endif %}"></td>
+                    <td ><input type='text'  name='description' value="{% if description %}{{description}}{% else %}{% endif %}"></td>
+                    <td ><input type='text'  name='category' value="{% if category %}{{category}}{% else %}{% endif %}"></td>
+                    <td ><input type='text'  name='price' value="{% if price %}{{price}}{% else %}{% endif %}"></td>
+                    <td ><input type='date'  name='expiry_date' value="{% if expiry_date %}{{expiry_date}}{% else %}{% endif %}"></td>
+                    <td ><input type='date'  name='created_at' value="{% if created_at %}{{created_at}}{% else %}{% endif %}"></td>
+                    <td ><button type='submit' class='btn btn-primary btn-sm'>Search</button></td>
+                </form>
+              </tr>
+              
+              <tbody class="list">
+              {% for product in products %}
+
+                <tr>
+                  <th scope="row">
+                        <span class="name mb-0 text-sm">{{product.name|truncatechars:40}}</span>
+                  </th>
+
+                  <td class="description">
+                   <span aria-hidden="true"></span> {{product.description|truncatechars:30}}
+                  </td>
+
+                  <td class="address">
+                    <span aria-hidden="true"></span> {{product.category.title|truncatechars:30}}
+                  </td>
+
+                  <td class="address">
+                    <span aria-hidden="true"></span>&#8377; {{product.price|truncatechars:30}}
+                  </td>
+
+                  <td class="address">
+                    <span aria-hidden="true"></span> {{product.expiry_date}}
+                  </td>
+
+                  <td class="address">
+                    <span aria-hidden="true"></span> {{product.created_at}}
+                  </td>
+
+                  <td class="text-right">
+                      <div class="d-flex align-items-center">
+                        <a class="p-1" href="{% url 'store:view_product' product.id %}"><i class="fa-solid fa-eye btn btn-primary btn-sm"></i></a>
+                        <a class="p-1" href="{% url 'store:edit_product' product.id %}"><i class="fa-solid fa-pen btn btn-success btn-sm"></i></a>
+                        <a class="p-1" href="{% url 'store:delete_product' product.id %}"><i class="fa-solid fa-trash btn btn-danger btn-sm"></i></a>
+                      </div>
+                    {% comment %} </div> {% endcomment %}
+                  </td>
+                </tr>
+              {% endfor %}
+
+                
+              </tbody>
+            </table>
+
+            <div class='container mx-auto' style='width:fit-content'>
+              {% if products.has_other_pages %}
+              <ul class="pagination">
+                {% if products.has_previous %}
+                  <li><a href="?page={{ products.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in products.paginator.page_range %}
+                  {% if products.number == i %}
+                    <li class="active1"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                  {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if products.has_next %}
+                  <li><a href="?page={{ products.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+              </ul>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include "includes/footer.html" %}
+
+  </div>
+
+
+  
+<!-- edit pharmacy Modal start -->
+<div class="modal fade" id="Edit_Project" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="margin-left: 175px;">
+        <h5 class="modal-title text-center" id="exampleModalLongTitle">Edit Pharmacy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form  id='edit_pharmacy' method="POST" action="{% url 'store:edit_pharmacy' %}"  onsubmit="Loader(this.id)"> 
+        {% csrf_token %}
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Name</label>
+            <input type="text" name="e_name"  class="form-control" id="e_name" placeholder="Enter Project Name">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Description</label>
+            <input type="text" name="e_description"  class="form-control" id="e_description" placeholder="Enter Pharmacy Name">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Address</label>
+            <input type="text" name="e_address"  class="form-control" id="e_address" placeholder="Enter Address">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Post Code</label>
+            <input type="text" name="e_postcode"  class="form-control" id="e_postcode" placeholder="Enter Post Code">
+          </div>
+          <input type="hidden" name="pharma_id" id="pharma_id"></input>
+      </div>
+       
+      <div class="modal-footer">
+        <button type="submit" id='sub' style="margin-right: 191px;" class="btn btn-primary">Submit</button>
+      </div>
+    </form> 
+    </div>
+  </div>
+</div>
+<!-- end of edit pharmacy Modal -->
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+
+<script>
+function clicked(id){
+  $('#project_id').val(id)
+    $.ajax({
+      url:"/get-privous-project/{{id}}" +id,
+      type:"GET",
+      //dataType : 'json',
+      success: function( response ) 
+        {
+            $('#edit_name').val(response.project_title)
+            $('#edit_budget').val(response.project_budget)
+        }
+    })
+   }
+</script>  
+<script>
+  $( document ).ready(function() {
+    var utc = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+    //alert(utc)
+  });
+</script>   
+
+<script>
+    $("#pharmacy_form").validate({
+      rules: {
+        name: {
+             required: true,
+        },              
+        description: {
+             required: true,
+        },       
+        address: {
+            required: true,
+       },      
+       postcode: {
+        required: true,
+   },        
+    },
+       
+    messages: {
+      name: "Please Enter Pharmacy Name", 
+      description: "Please Enter Description",             
+      address: "Please Enter Addres",             
+      postcode: "Please Enter Post Code",             
+  }
+})
+</script> 
+
+
+
+{% endblock javascripts %}
