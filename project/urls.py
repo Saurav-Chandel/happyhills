@@ -29,4 +29,5 @@ urlpatterns = [
     path('accounts/', include('accounts.urls',namespace='accounts')),
     # path('store/', include('store.urls',namespace='store')),
     path('', include('frontend.urls',namespace='frontend')),
+    path('loggers/', include('logger.urls',namespace='loggers')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

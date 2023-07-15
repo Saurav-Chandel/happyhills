@@ -97,7 +97,7 @@
   <section class="class_section py-5 my-5">
       
       <div class="d-flex mx-auto">
-        <form action={% url 'user:signup' %} method="POST" class="form-horizontal mx-auto" id="signup" onsubmit="Loader(this.id)">
+        <form action={% url 'accounts:signup' %} method="POST" class="form-horizontal mx-auto" id="signup" onsubmit="Loader(this.id)">
             {% csrf_token %}
             <h1>Welcome</h1>
             <fieldset>
@@ -188,7 +188,7 @@
                 </div>
                 <div class="ex-account text-center">
                     <p>Already have an account? Signin 
-                        <a href="{% url 'user:login' %}">here</a>
+                        <a href="{% url 'accounts:login' %}">here</a>
                     </p>
                     <div class="divider"></div>
                 </div>

@@ -1,0 +1,119 @@
+{% include 'admin/admin-includes/header.html' %}
+
+
+
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="page-title">
+                <h4>Renters</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+						<li class="breadcrumb-item">Index</li>
+                        <li class="breadcrumb-item active"><a class="white-text" href="/users/renters/">Landing Pictures</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="page-btn">
+                <a class="btn btn-primary" href="{% url 'frontend:add_banner' %}">Add Landing Pictures<i class="fas fa-plus ms-1"></i></a>
+            </div>
+        </div>
+        <div class="card shadow">
+            <div class="card-body">
+                <div class=" dataview">
+                    <form onsubmit="Loader()" action="/users/renters/" method="GET">
+						<div class="table-responsive">
+							<table class="table datatable">
+								<thead>
+									<tr>
+										<th><strong>Full Name</strong></th>
+										<th><strong>Email</strong></th>
+										<th><strong>Phone Number</strong></th>
+										<th><strong>Status </strong></th>
+										<th><strong>Created on </strong></th>
+										<th><strong>Actions </strong></th>
+									</tr>
+								</thead>
+								<thead>
+									<tr class="search-row">
+										<td><input type="text" value="" class="form-control" name="full_name" maxlength="20"></td>
+										<td><input type="text" value="" class="form-control" name="email" maxlength="20"></td>
+										<td><input type="text" value="" class="form-control" name="mobile_no" maxlength="20"></td>
+										<td>
+											<select class="form-control" name="status" onchange="this.form.submit()">
+												<option  value=""></option>
+												<option  value="1">ACTIVE</option>
+												<option  value="2">INACTIVE</option>
+												<option  value="3">DELETED</option>
+												<option  value="4">DELETED_BY_USER</option>
+											</select>
+										</td>
+										<td><input type="date" value="" class="position-relative form-control" onkeydown="return false"  onchange="this.form.submit()" name="created_on"></td>
+										<td><button type="submit" class="btn btn-primary">Search</button></td>
+									</tr>
+								</thead>
+								<tbody>
+									
+										
+										<tr>
+											<td>
+												<div class="d-flex align-items-center display-images">
+													
+													<a href="/static/admin-assets/images/dp.png" data-fancybox>
+														<img src="/static/admin-assets/images/dp.png"
+														class="rounded-lg me-2" width="24" alt="">
+													</a>
+													
+													
+													<span class="w-space-no">-</span>
+													
+												</div>
+											</td>
+											<td class='clickable-row' data-href="/users/view-profile/3/">
+												pitter2@toxsl.in
+											</td>
+											<td class='clickable-row' data-href="/users/view-profile/3/">
+												-
+											</td>
+											<td class='clickable-row' data-href="/users/view-profile/3/">
+												
+												<span class="badge bg-secondary">INACTIVE</span>
+												
+											</td>
+											<td class='clickable-row' data-href="/users/view-profile/3/">
+												<span class="w-space-no">
+												<script>
+													var date = ConvertGTime("2023-06-08", "05:50");
+													document.write(date);
+												</script>
+												</span>
+											</td>
+											
+											<td>
+												<div class="d-flex">
+													<a title="View Details" href="/users/view-profile/3/"
+														id="update-btn" class="btn btn-success shadow btn-xs sharp me-1">
+														<i class="fa fa-eye"></i>
+													</a>
+                                                    <a title="View Details" href="/users/edit-renter/3/"
+														id="update-btn" class="btn btn-warning shadow btn-xs sharp me-1">
+														<i class="fa fa-pencil"></i>
+													</a>
+												</div>
+											</td>
+										</tr>
+										
+									
+								</tbody>
+							</table>
+						</div>
+					</form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'admin/admin-includes/footer.html' %}

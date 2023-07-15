@@ -26,7 +26,7 @@ def Login(request):
         email=request.POST.get('email')
         password=request.POST.get('password')
         user = authenticate(username=email,password=password)
-        if user is not None:
+        if user is not None and user.is_authenticated and user.is_superuser:
            login(request, user)
            messages.add_message(request, messages.INFO, 'Login Successfully.')
            return redirect('admin:index')
@@ -45,10 +45,10 @@ def Signup(request):
         user.password=make_password(request.POST.get('password')) 
         user.save() 
         messages.add_message(request, messages.INFO, 'Signup Successfully.')
-        return redirect('user:login')
+        return redirect('accounts:login')
 
 
 @login_required
 def Logout(request):
     logout(request)
-    return redirect('user:login')
+    return redirect('accounts:login')
