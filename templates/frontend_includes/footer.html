@@ -1,7 +1,7 @@
-
+{% comment %} 
 <footer>
   <div class="copyright-footer-befor-login">
-      <p class="mb-0 text-center">Copyright <span id="full_year"></span> | Shaxify. All right reserved.    
+      <p class="mb-0 text-center">Copyright <span id="full_year"></span> | MountCraves. All right reserved.    
           <a class="ml-2" href="/terms-and-conditions/">Terms &amp; Conditions</a> | <a href="/privacy-policy/">Privacy Policy</a>
       </p>
   </div>
@@ -37,5 +37,97 @@
       }
   }
 </script>
+</body>
+</html> {% endcomment %}
+{% load static %}
+<footer>
+    <div class="wrap-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="copyright">Copyright &copy; Your Website <br/>Designed by <a href="https://www.Zerotheme.com">Zerotheme</a></div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline social-buttons">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline quicklinks">
+                        <li><a href="#">Privacy Policy</a>
+                        </li>
+                        <li><a href="#">Terms of Use</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer -->
+
+
+
+<!-- jQuery -->
+<script src="{% static 'frontend-assets/js/jquery-2.1.1.js' %}"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'frontend-assets/js/bootstrap.min.js' %}"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="{% static 'frontend-assets/js/agency.js' %}"></script>
+
+<!-- Animated Top -->
+<script src="{% static 'frontend-assets/js/jquery.easing.min.js' %}"></script>
+<script src="{% static 'frontend-assets/js/classie.js' %}"></script>
+<script src="{% static 'frontend-assets/js/cbpAnimatedHeader.js' %}"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed --> 
+<script type="text/javascript" src="{% static 'frontend-assets/js/SmoothScroll.js' %}"></script> 
+<script type="text/javascript" src="{% static 'frontend-assets/js/wow.min.js' %}"></script> 
+<script type="text/javascript" src="{% static 'frontend-assets/js/jquery.isotope.js' %}"></script> 
+<script type="text/javascript" src="{% static 'frontend-assets/js/main.js' %}"></script>
+
+<script>
+    $(function() {
+        $('#nav-wrapper').height($("#nav").height());
+        
+        $('#nav').affix({
+            offset: { top: $('#nav').offset().top }
+        });
+    });
+</script>
+
+<!-- carousel -->
+<script src="{%  static 'frontend-assets/owl-carousel/owl.carousel.js' %}"></script>
+<script>
+$(document).ready(function() {
+  $("#owl-brand").owlCarousel({
+    autoPlay: 3000,
+    items : 1,
+    itemsDesktop : [1199,1],
+    itemsDesktopSmall : [979,2],
+    navigation: false,
+  });
+});
+</script>
+
+<!-- Google Map -->
+<script>
+    $('.maps').click(function () {
+    $('.maps iframe').css("pointer-events", "auto");
+});
+
+$( ".maps" ).mouseleave(function() {
+  $('.maps iframe').css("pointer-events", "none"); 
+});
+</script>
+
 </body>
 </html>

@@ -1,0 +1,246 @@
+
+{% include 'admin/admin-includes/header.html' %}
+
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="page-title">
+                <h4>View Profile</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/users/renters/" class="white-text">Renters</a></li>
+                        <li class="breadcrumb-item active">Profile</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="page-btn d-flex">
+                <a class="btn btn-primary me-2" href="/accounts/user-notifications/9/" ><i class="fa fa-bell"></i> Notification</a>
+                <a class="btn btn-primary me-2" href="/users/edit-renter/9/" ><i class="fa fa-pencil me-1"></i> Update</a>
+                <a class="btn btn-primary me-2" href="/accounts/user-transactions/9/" ><i class="fa-solid fa-chart-line me-1"></i> Renter Transactions</a>
+                <a class="btn btn-secondary" href="/users/renters/" ><i class="fa fa-angle-left me-1"></i> Back</a>
+            </div>
+        </div>
+        <div class="row">
+                <div class="col-lg-12 col-sm-12 mt-5">
+                    <div class="card product-profile-wrapper shadow">
+                        <div class="product-detail-wrapper">
+                            <div class="profile-imgbox">
+
+                                
+                                <a class="product-img" href="/static/admin-assets/images/dp.png" data-fancybox="gallery">
+                                    <img style="height: auto;" src="/static/admin-assets/images/dp.png" alt="image">
+                                </a>
+                                
+                                
+                            </div>
+                        </div>
+                        <div class="card-body ">
+                            <div class="productdetails">
+                                <ul class="product-bar">
+                                    <li>
+                                        <h4>Username </h4>
+                                        <h6> - </h6>
+                                    </li>
+                                    <li>
+                                        <h4>Email </h4>
+                                        <h6>sharan@gmail.com</h6>
+                                    </li>
+                                    <li>
+                                        <h4>Phone Number </h4>
+                                        <h6>  - </h6>
+                                    </li>
+                                    <li>
+                                        <h4>Status</h4>
+                                        <h6>
+                                            
+                                            <span class="badge bg-secondary">INACTIVE</span>
+                                            
+                                        </h6>
+                                    </li>
+                                    <li>
+                                        <h4>Is Mail Verified</h4>
+                                        <h6>
+                                            
+                                            <span class="badge bg-danger">Unverified</span>
+                                            
+                                        </h6>
+                                    </li>
+                                    <li>
+                                        <h4>Created On </h4>
+                                        <h6>
+                                            <script>
+                                                var date = ConvertGTime("2023-07-18", "12:21");
+                                                document.write(date);
+                                            </script>
+                                        </h6>
+                                    </li>
+                                    <li>
+                                        <h4>Last Login </h4>
+                                        <h6>
+                                            -
+                                        </h6>
+                                    </li>
+
+                                    
+                                </ul>
+                            </div>
+                            
+                                <div class="btn-list border-0 d-flex justify-content-end align-items-center mt-4">
+                                    
+                                        <a href="/users/active-inactive-user/9/" onclick="Loader()" class="btn btn-success ms-2">Activate</a>
+                                        <a href="/users/delete-user/9/" onclick="Loader()" class="btn btn-danger ms-2">Delete</a>
+                                    
+                                </div>
+                            
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="col-lg-12 col-sm-12 mt-5">
+            <div class="row mt-4">
+                <div class="tabset">
+                    <input type="radio" name="tabset" id="tab1" aria-controls="Rented Products" checked>
+                    <label for="tab1">Rented Products</label>
+                    <input type="radio" name="tabset" id="tab2" aria-controls="Saved Products" >
+                    <label for="tab2">Saved Products</label>
+                    <input type="radio" name="tabset" id="tab3" aria-controls="Rating & Reviews" >
+                    <label for="tab3">Rating & Reviews</label>
+                    <div class="tab-panels">
+                        <section id="Rented Products" class="tab-panel">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class=" dataview">
+                                        <div class="table-responsive">
+                                            <table class="table datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th><strong>Product Title</strong></th>
+                                                        <th><strong>Product Description</strong></th>
+                                                        <th><strong>Product Price</strong></th>
+                                                        <th><strong>Lender</strong></th>
+                                                        <th><strong>Category</strong></th>
+                                                        <th><strong>Booked From </strong></th>
+                                                        <th><strong>Booked to </strong></th>
+                                                        <th><strong>Action</strong></th>
+                                                    </tr>
+                                                </thead>
+                                                <thead>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
+                                            </table>
+                                             
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section id="Saved Products" class="tab-panel">
+                            <div class="card shadow">
+                                <div class="card-body ">
+                                    <div class=" dataview">
+                                        <div class="table-responsive">
+                                            <table class="table datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th><strong>Title</strong></th>
+                                                        <th><strong>Description</strong></th>
+                                                        <th><strong>Category</strong></th>
+                                                        <th><strong>Created By</strong></th>
+                                                        <th><strong>Created on </strong></th>
+                                                        <th><strong>Actions </strong></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
+                                            </table>
+                                             
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section id="Rating & Reviews" class="tab-panel">
+                        <div class='card shadow p-4'>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="card ">
+                                        <div class="card-body">
+                                        <div class="col-md-12 col-lg-12 col-xl-12 col-sm">
+                                            <h5 class="product_headings">Rating</h5> 
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="custom-rating">
+                                                        <div class="global">
+                                                            <span class="global-value">0</span>
+                                                            <div class="rating-icons">
+                                                                <div class="stars" style="--rating:0;"></div>
+                                                            </div>
+                                                            <span class="total-reviews">0</span>
+                                                        </div>
+                                                        <div class="chart">
+                                                        
+                                                        
+                                                            <div class="rate-box">
+                                                                <span class="value">5</span>
+                                                                <div class="progress-bar"><span class="progress" style="min-width: 0%;"></span></div>
+                                                            </div>
+                                                        
+                                                            <div class="rate-box">
+                                                                <span class="value">4</span>
+                                                                <div class="progress-bar"><span class="progress" style="min-width: 0%;"></span></div>
+                                                            </div>
+                                                        
+                                                            <div class="rate-box">
+                                                                <span class="value">3</span>
+                                                                <div class="progress-bar"><span class="progress" style="min-width: 0%;"></span></div>
+                                                            </div>
+                                                        
+                                                            <div class="rate-box">
+                                                                <span class="value">2</span>
+                                                                <div class="progress-bar"><span class="progress" style="min-width: 0%;"></span></div>
+                                                            </div>
+                                                        
+                                                            <div class="rate-box">
+                                                                <span class="value">1</span>
+                                                                <div class="progress-bar"><span class="progress" style="min-width: 0%;"></span></div>
+                                                            </div>
+                                                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-xl-6">
+                                    <div class="card ">
+                                        <div class="card-body ">  
+                                        <div class='d-flex justify-content-between'>
+                                        <h5 class="product_headings">Reviews</h5>  
+                                        
+                                        </div>
+                                             
+                                            <div style='text-align:center'>
+                                            <img src="/static/admin-assets/images/no-data.png">
+                                            <h4><b>No Data Found.</b></h4>
+                                            </div>
+                                             
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'admin/admin-includes/footer.html' %}

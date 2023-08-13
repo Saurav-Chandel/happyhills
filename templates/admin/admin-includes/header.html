@@ -13,7 +13,7 @@
         content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern,  html5, responsive">
     <meta name="author" content="Dreamguys - Bootstrap Admin Template">
     <meta name="robots" content="noindex, nofollow">
-    <title>Shaxify</title>
+    <title>MountCraves</title>
     {% comment %} <link rel="shortcut icon" href="/static/admin-assets/images/favicon.ico" /> {% endcomment %}
     <link rel="stylesheet" href="{% static 'admin-assets/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'admin-assets/css/animate.css' %}">
@@ -22,6 +22,10 @@
     <link rel="stylesheet" href="{% static 'admin-assets/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'admin-assets/css/flash.css' %}">
     <link rel="stylesheet" href="{% static 'admin-assets/css/loader.css' %}">
+    
+    {% comment %} <link rel="stylesheet" href="{% static 'admin-assets/css/intlTelInput.css' %}"> {% endcomment %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/css/intlTelInput.min.css" rel="stylesheet"/>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.css">
     <link rel="stylesheet" href="https://codepen.io/fancyapps/pen/Kxdwjj.css" />
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
@@ -56,10 +60,10 @@
   <div class="header adminheader">
       <div class="header-left active">
           <a href="/" class="logo logo-normal text-light">
-              <img src="/static/admin-assets/images/logo.png" alt="Shaxify" class="me-2 ms-2">
+              <img src="/static/admin-assets/images/logo.png" alt="MountCraves" class="me-2 ms-2">
           </a>
           <a href="/" class="logo-collapse">
-              <img src="/static/admin-assets/images/logo-symbol.png" alt="Shaxify">
+              <img src="/static/admin-assets/images/logo-symbol.png" alt="MountCraves">
           </a>
           <a id="toggle_btn" href="javascript:void(0);">
           </a>
@@ -73,7 +77,7 @@
       </a>
       <div class="header-title">
           <div class="dashboard_bar" style='color:#fff'>
-              Dashboard
+            {% if head_title %} {{head_title}}  {% else %}Dashboard{% endif %}
           </div>
       </div>
       <ul class="nav user-menu">
@@ -134,16 +138,27 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        <li  class="active" >
+                        <li {% if not head_title %} class="active" {% endif %}>
                             <a href="{% url 'accounts:login' %}">
-                                <i class="fas fa-tachometer-alt"></i><span> Dashboard</span>
+                                <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
                             </a>
                         </li>
-                        <li >
+                        <li {% if head_title == 'Banners' %} class="active" {% endif %}>
                             <a href="{% url 'frontend:banner' %}">
-                                <i class="fa-solid fa-image"></i><span>Landing Picture</span>
+                                <i class="fa-solid fa-image"></i><span>Banners</span>
                             </a>
                         </li>
+
+                        <li class="submenu {% if  head_title == 'States' or head_title == 'Districts' or head_title == 'Treks' %} active {% endif %}">
+                            <a href="javascript:void(0);"><i class="fab fa-product-hunt"></i><span> Treks</span>
+                                <span class="menu-arrow"></span></a>
+                            <ul>
+                                <li><a {% if head_title == 'States' %}  class='active' {% endif %} href="{% url 'frontend:state_list' %}">State</a></li>
+                                <li><a {% if head_title == 'Districts' %}  class='active' {% endif %} href="{% url 'frontend:district_list' %}">Districts</a></li>
+                                <li><a {% if head_title == 'Treks' %}  class='active' {% endif %} href="{% url 'frontend:trek_list' %}">Treks</a></li>
+                            </ul>
+                        </li>
+
                         <li class="submenu ">
                             <a href="javascript:void(0);"><i class="fas fa-users"></i><span> Users</span>
                                 <span class="menu-arrow"></span></a>

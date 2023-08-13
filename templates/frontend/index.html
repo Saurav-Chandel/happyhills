@@ -1,157 +1,9 @@
-{% comment %} {% include 'frontend_includes/header.html' %}
 
-    
-<div class="main-wrapper  main-page-header ">
-      <div class="header before-login-header">
-          <div class="header-left active">
-              <a href="/" class="logo logo-normal text-light">
-                  <img src="/static/admin-assets/images/logo.png" alt="logo" class="me-2">
-              </a>
-          </div>
-          <ul class="nav user-menu">
-              <li class="nav-item dropdown">
-                  <a href="/about-us/" class="nav-link me-2">
-                      About Us
-                  </a>
-              </li>
-              <li class="nav-item header-btn">
-                  <a href="{% url 'accounts:login' %}" class="btn main-btn">
-                      <svg class="icon" width="19" height="20" viewBox="0 0 19 20" xmlns="http://www.w3.org/2000/svg">
-                          <path
-                              d="M6.70645 1.09505C7.53328 0.544106 8.50545 0.25 9.5 0.25C10.8337 0.25 12.1126 0.778338 13.0554 1.71857C13.9982 2.65877 14.5278 3.93381 14.5278 5.26316C14.5278 6.25451 14.233 7.22366 13.6806 8.04805C13.1282 8.87245 12.3431 9.5151 11.4243 9.89462C10.5055 10.2741 9.49443 10.3735 8.519 10.18C7.54357 9.98648 6.64768 9.50891 5.94458 8.80775C5.24148 8.1066 4.76275 7.21337 4.5688 6.24105C4.37486 5.26873 4.47439 4.26088 4.85485 3.34493C5.2353 2.42898 5.87963 1.64598 6.70645 1.09505ZM7.60207 8.0969C8.16392 8.47127 8.8244 8.67105 9.5 8.67105C10.4059 8.67105 11.2749 8.31218 11.9157 7.67315C12.5565 7.0341 12.9167 6.16721 12.9167 5.26316C12.9167 4.58899 12.7162 3.93001 12.3407 3.36957C11.9652 2.80913 11.4315 2.37243 10.8073 2.11458C10.183 1.85673 9.4962 1.78928 8.83357 1.92072C8.17094 2.05216 7.56217 2.37662 7.0843 2.85317C6.60642 3.32973 6.2809 3.93698 6.14901 4.59818C6.01712 5.25938 6.08482 5.94473 6.34351 6.56753C6.60219 7.19032 7.04021 7.72252 7.60207 8.0969ZM18.75 18.9474V19.75H17.1389V18.9474C17.1389 17.485 16.5563 16.0826 15.5196 15.0487C14.4829 14.0149 13.0769 13.4342 11.6111 13.4342H7.38889C5.92305 13.4342 4.51712 14.0149 3.48041 15.0487C2.44367 16.0826 1.86111 17.485 1.86111 18.9474V19.75H0.25V18.9474C0.25 17.0597 1.00196 15.2491 2.34069 13.9141C3.67944 12.5791 5.49531 11.8289 7.38889 11.8289H11.6111C13.5047 11.8289 15.3206 12.5791 16.6593 13.9141C17.998 15.2491 18.75 17.0597 18.75 18.9474Z"
-                              stroke="white" stroke-width="0.5"></path>
-                      </svg>
-                      Login
-                  </a>
-              </li>
-          
-          </ul>
-      </div>
-<div id="main-wrapper">
-  <div class="main-video-wrapper">
-      <div class="typewriter">
-          <h1>"Welcome to Shaxify"</h1>
-      </div>
-  </div>
-</div> 
 
-{% include 'frontend_includes/footer.html' %}     {% endcomment %}
-
+{% include 'frontend_includes/header.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Free Bootstrap Themes by Zerotheme dot com - Free Responsive Html5 Templates">
-    <meta name="author" content="https://www.Zerotheme.com">
 	
-    <title>TravelClub | Zerotheme.com</title>
-	
-    <!-- Bootstrap Core CSS -->
-    <link href="{% static 'frontend-assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
-	
-	<!-- Custom CSS -->
-    <link href="{% static 'frontend-assets/css/style.css' %}" rel="stylesheet">
-	
-	<!-- Custom Fonts -->
-    <link href="{% static 'frontend-assets/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
-	
-	<!-- Owl Carousel Assets -->
-    <link href="{% static 'frontend-assets/owl-carousel/owl.carousel.css' %}" rel="stylesheet">
-    <link href="{% static 'frontend-assets/owl-carousel/owl.theme.css' %}" rel="stylesheet">
-	
-	<!-- jQuery and Modernizr-->
-	<script src="{% static 'frontend-assets/js/jquery-2.1.1.js' %}"></script>
 
-	
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="js/html5shiv.js"></script>
-        <script src="js/respond.min.js"></script>
-    <![endif]-->
-</head>
-<body>
-	{% comment %} <div class="top">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4">
-					<ul class="list-inline social-buttons">
-						<li><a href="#"><i class="fa fa-twitter"></i></a>
-						</li>
-						<li><a href="#"><i class="fa fa-facebook"></i></a>
-						</li>
-						<li><a href="#"><i class="fa fa-linkedin"></i></a>
-						</li>
-					</ul>
-				</div>
-				<div class="col-md-4 col-md-offset-4">
-					<div class="top-search">
-						<div id="search" class="input-group">
-						  <input type="text" name="search" value="" placeholder="Search" class="form-control" />
-						  <span class="input-group-btn">
-							<button type="button" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
-						  </span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	 {% endcomment %}
-	<!-- /////////////////////////////////////////Navigation -->
-	<div id="nav-wrapper">
-		<div id="nav" class="navbar navbar-default navbar-inner">
-			<div class="container">
-		
-				<!-- BAR CONTENTS -->
-				<div class="navbar-header">
-				  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				   <span class="sr-only">Toggle navigation</span>
-				   <span class="icon-bar"></span>
-				   <span class="icon-bar"></span>
-				   <span class="icon-bar"></span>
-				  </button>
-				  <a href="#page-top" class="navbar-brand navbar-brand-centered"><img src="{% static 'frontend-assets/images/logo.png' %}" alt="First slide"></a>
-				</div>
-
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-						<li class="hidden">
-							<a href="#page-top"></a>
-						</li>
-						<li>
-							<a class="page-scroll first" href="#nav-services">Services</a>
-						</li>
-						<li>
-							<a class="page-scroll" href="#nav-event">Event</a>
-						</li>
-						<li>
-							<a class="page-scroll" href="#nav-gallery">Gallery</a>
-						</li>						
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<a class="page-scroll" href="#nav-adventures">Adventures</a>
-						</li>
-						<li>
-							<a class="page-scroll" href="#nav-testimonials">Testimonials</a>
-						</li>
-						<li>
-							<a class="page-scroll" href="#location">Location</a>
-						</li>
-					</ul>
-				</div><!-- /.navbar-collapse -->
-			
-
-			</div> <!-- row -->
-		</div> <!-- nav -->
-	</div> <!-- wrapper -->
-	<!-- Navigation -->
-	
 	<header>
 		<div class="box-shadow">
 			<!-- Carousel -->
@@ -169,7 +21,11 @@
       			{% for i in banners %}
 
 					<div class="item {% if forloop.counter == 1 %} active {% endif %}">
+						{% if i.image %}
 						<img src="{{i.image.url}}" alt="Second slide">
+						{% else %}
+						<img src="" alt="Second slide">
+						{% endif %}
 						<!-- Static Header -->
 						<div class="header-text hidden-xs">
 							<div class="col-md-12 text-center">
@@ -191,9 +47,7 @@
 			</div><!-- /carousel -->
 		</div>
 	</header>
-	<!-- /Section: intro -->
-	
-	<!-- /////////////////////////////////////////Content -->
+
 	<div id="page-content">
 	
 		<!-- ////////////Content Box 01 -->
@@ -205,28 +59,28 @@
 				<div class="row">
 					<div class="col-md-3">
 						<div class="box-item">
-							<center><img src="images/climbing.png" /></center>
+							<center><img src="{% static 'frontend-assets/images/climbing.png' %}" /></center>
 							<h3>Climbing</h3>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam viverra convallis auctor. Sed accumsan libero quis mi commodo et suscipit enim lacinia. Morbi rutrum vulputate est sed faucibus.</p>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="box-item">
-							<center><img src="images/fishing.png" /></center>
+							<center><img src="{% static 'frontend-assets/images/fishing.png' %}" /></center>
 							<h3>Fishing</h3>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam viverra convallis auctor. Sed accumsan libero quis mi commodo et suscipit enim lacinia. Morbi rutrum vulputate est sed faucibus.</p>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="box-item">
-							<center><img src="images/camping.png" /></center>
+							<center><img src="{% static 'frontend-assets/images/camping.png'%}" /></center>
 							<h3>Camping</h3>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam viverra convallis auctor. Sed accumsan libero quis mi commodo et suscipit enim lacinia. Morbi rutrum vulputate est sed faucibus.</p>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="box-item">
-							<center><img src="images/fire.png" /></center>
+							<center><img src="{% static 'frontend-assets/images/fire.png' %}" /></center>
 							<h3>Campfire</h3>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam viverra convallis auctor. Sed accumsan libero quis mi commodo et suscipit enim lacinia. Morbi rutrum vulputate est sed faucibus.</p>
 						</div>
@@ -560,89 +414,5 @@
 		</section>
 		
 	</div>
+{% include 'frontend_includes/footer.html' %}	
 	
-	<footer>
-		<div class="wrap-footer">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-4">
-						<div class="copyright">Copyright &copy; Your Website <br/>Designed by <a href="https://www.Zerotheme.com">Zerotheme</a></div>
-					</div>
-					<div class="col-md-4">
-						<ul class="list-inline social-buttons">
-							<li><a href="#"><i class="fa fa-twitter"></i></a>
-							</li>
-							<li><a href="#"><i class="fa fa-facebook"></i></a>
-							</li>
-							<li><a href="#"><i class="fa fa-linkedin"></i></a>
-							</li>
-						</ul>
-					</div>
-					<div class="col-md-4">
-						<ul class="list-inline quicklinks">
-							<li><a href="#">Privacy Policy</a>
-							</li>
-							<li><a href="#">Terms of Use</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
-	<!-- Footer -->
-
-
-
-	<!-- jQuery -->
-	<script src="{% static 'frontend-assets/js/jquery-2.1.1.js' %}"></script>
-
-
-	<!-- Bootstrap Core JavaScript -->
-	<script src="{% static 'frontend-assets/js/bootstrap.min.js' %}"></script>
-
-	<!-- Custom Theme JavaScript -->
-	<script src="{% static 'frontend-assets/js/agency.js' %}"></script>
-
-	<!-- Animated Top -->
-	<script src="{% static 'frontend-assets/js/jquery.easing.min.js' %}"></script>
-	<script src="{% static 'frontend-assets/js/classie.js' %}"></script>
-	<script src="{% static 'frontend-assets/js/cbpAnimatedHeader.js' %}"></script>
-
-	<script>
-		$(function() {
-			$('#nav-wrapper').height($("#nav").height());
-			
-			$('#nav').affix({
-				offset: { top: $('#nav').offset().top }
-			});
-		});
-	</script>
-	
-	<!-- carousel -->
-	<script src="{%  static 'frontend-assets/owl-carousel/owl.carousel.js' %}"></script>
-    <script>
-    $(document).ready(function() {
-      $("#owl-brand").owlCarousel({
-        autoPlay: 3000,
-        items : 1,
-		itemsDesktop : [1199,1],
-        itemsDesktopSmall : [979,2],
-		navigation: false,
-      });
-    });
-    </script>
-	
-	<!-- Google Map -->
-	<script>
-		$('.maps').click(function () {
-		$('.maps iframe').css("pointer-events", "auto");
-	});
-
-	$( ".maps" ).mouseleave(function() {
-	  $('.maps iframe').css("pointer-events", "none"); 
-	});
-	</script>
-	
-</body>
-</html>

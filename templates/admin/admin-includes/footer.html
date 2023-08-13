@@ -2,7 +2,7 @@
 {% load static %}
 <footer>
     <div class="copyright-footer">
-        <p class="mb-0 text-center">Copyright <span id="full_year"></span> | Shaxify. All right reserved.    
+        <p class="mb-0 text-center">Copyright <span id="full_year"></span> | MountCraves. All right reserved.    
         </p>
     </div>
 </footer>
@@ -18,6 +18,11 @@
 <script src="{% static 'admin-assets/js/script.js' %}"></script>
 <script src="{% static 'admin-assets/js/validate.js' %}"></script>
 <script src="{% static 'admin-assets/js/additional-methods.min.js' %}"></script>
+<script src="{% static 'admin-assets/js/sweetalert.js' %}"></script>
+
+<script src="{% static 'admin-assets/js/intlTelInput-jquery.min.js' %}"></script>
+{% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"></script> {% endcomment %}
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <script>
@@ -88,6 +93,37 @@
             else {
                 $(".email-error").html("");
                 $(".btn").prop('disabled', false);
+            }
+        });
+    });
+
+    $('.show_confirm').click(function(event) {
+        var href = $(this).attr('url_link')
+        event.preventDefault();        
+        swal({
+            title: `Are you sure you want to delete this record?`,
+            text: "",
+            icon: "warning",
+            buttons: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                location.href=href
+            }
+        });
+    });
+    $('.shows_confirm').click(function(event) {
+        var href = $(this).attr('url_link')
+        event.preventDefault();        
+        swal({
+            title: `Are you sure you want to delete all the record?`,
+            text: "",
+            icon: "warning",
+            buttons: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                location.href=href
             }
         });
     });

@@ -1,0 +1,226 @@
+
+{% include 'admin/admin-includes/header.html' %}
+
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="page-title">
+                <h4>Update Profile</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a class="white-text" href="/users/renters/">Renters</a></li>
+                        <li class="breadcrumb-item active">Profile</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="page-btn">
+                <a class="btn btn-secondary" href="/users/view-profile/9/"><i class="fa fa-angle-left me-1"></i> Back</a>
+            </div>
+        </div>
+        <div class="card shadow">
+            <div class="card-body">
+                <form id="edit-renter" action="/users/edit-renter/9/" onsubmit="Loader(this.id)" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="Gy6gWB11Fdzc385VFQmMu4sFR40Ts3ZXwgBEFOBs6B1MtIAJzNjkp2INN5dgrEa3">
+                    <input type="hidden" id="number1" />
+                    <input type="hidden" id="number2" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3 required-field">
+                                <label class="form-label">First Name</label>
+                                <input type="text" value="" placeholder="Enter First Name" name="first_name" class="form-control" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3 required-field">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" value="" placeholder="Enter Last Name" name="last_name" class="form-control" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3 required-field">
+                                <label class="form-label">Email</label>
+                                <input type="text" value="sharan@gmail.com"  placeholder="Enter Email" name="email" id="email" class="form-control" maxlength="50">
+                                <label class="email-error" value = "email-error" style="color:red"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3 required-field">
+                                <label class="form-label">Phone Number</label>
+                                    <input id="country_code" type="text" style="display:none;" value="" name="country_code" class="form-control" maxlength="20">
+                                    <input type="text" style="display:none;" value=""  name="country_iso" id="country_iso" class="form-control"  maxlength="10">
+                                    <input type="text" class="form-control" onkeypress="return /[0-9\s]/i.test(event.key)" placeholder="Enter Phone Number" name="mobile_no" id="mobile_no" maxlength="10" minlength="9" value=""  >
+                                    <label class="mobile_no-error" id ="mobile_no-error" value="mobile_no-error" style="color:red"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label">Profile Picture</label>
+                                <input   type="file" name="profile_pic" class="form-control">
+                            </div>       
+                        </div>
+                        <div class="col-md-6"></div>
+                        <div class="mb-3 col-md-6 mt-2 schedule-days required-field">
+                            <div class="form-check checkboxs">
+                                <input type="checkbox" checked class="custom-control-input" name="text_notification" value="text_notification" id="text_notification">
+                                <label class="form-check-label checkmarks" for="text_notification">Text Notifications</label>
+                            </div>
+                            <div class="form-check checkboxs">
+                                <input type="checkbox" checked class="custom-control-input" name="email_notification" value="email_notification" id="email_notification">
+                                <label class="form-check-label checkmarks" for="email_notification">Email Notifications</label>
+                            </div>
+                            <div class="form-check checkboxs">
+                                <input type="checkbox" checked class="custom-control-input" name="promotion_notification" value="recieve_promotions_notification" id="promotion_notification">
+                                <label class="form-check-label checkmarks" for="promotion_notification">Promotion Notificatons</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-end">
+                            <button class="btn btn-success" type="submit">Save</button></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'admin/admin-includes/footer.html' %}
+
+<script type="text/javascript">    
+    jQuery.validator.addMethod("is_email_exists", 
+    function(value, element) {
+        let is_valid = true
+        $.ajax({
+            url: "/accounts/validations/",
+            type: "GET",
+            data: { email: value,user : 9},
+            async:false,
+            success: function (data) {
+                if(data.email_exists == true){
+                    is_valid = false
+                }else{
+                    is_valid =  true
+                }
+              
+            },
+          });        
+        return is_valid
+    },'This email is already exists, please choose another.'); 
+    
+    jQuery.validator.addMethod("is_mobile_exists", 
+    function(value, element) {
+        let is_valid = true
+        $.ajax({
+            url: "/accounts/validations/",
+            type: "GET",
+            data: { mobile_no: value,user : 9},
+            async:false,
+            success: function (data) {
+                console.log(data)
+                if(data.mobile_exists == true){
+                    is_valid = false
+                }else{
+                    is_valid =  true
+                }
+              
+            },
+          });        
+        return is_valid
+    },'This phone number is already exists, please choose another.');
+    
+    $("#edit-renter").validate({
+        rules: {
+            first_name: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                }
+            },
+            profile_pic: {
+                accept: "jpg,png,jpeg,gif",
+            },
+            last_name: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                }
+            },
+            email: {
+                required: true,
+                is_email_exists:true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                },
+            },
+            mobile_no: {
+                required: true,
+                is_mobile_exists:true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                },
+                number: true
+            },
+            gender: {
+                required: true,
+            }
+        },
+        messages: {
+            first_name: {
+                required: "Please enter first name"
+            },
+            last_name: {
+                required: "Please enter last name"
+            },
+            email: {
+                required: "Please enter email"
+            },
+            mobile_no: {
+                required: "Please enter phone number"
+            },
+            gender: {
+                required: "Please select gender",
+            },
+            profile_pic: {
+                accept: "Please upload file in these format only (jpg, png, jpeg)",
+            },
+        },
+         
+    });    
+
+
+    {% comment %} $("#mobile_no").intlTelInput({
+    initialCountry: "auto",
+    separateDialCode: true,
+    geoIpLookup: function(callback) {
+        fetch("https://ipapi.co/json")
+          .then(function(res) { return res.json(); })
+          .then(function(data) { callback(data.country_code); 
+            $('#country_code').val(data.country_code)
+            $('#country_iso').val(data.country_calling_code)
+        })
+          .catch(function() { callback("in"); 
+          $('#country_code').val('in')
+          $('#country_iso').val('+91')
+        });
+      }
+    }).on('countrychange', function (e, countryData) {
+        $('#country_code').val($('.iti__selected-dial-code').text())
+        $('#country_iso').val($("#mobile_no").intlTelInput("getSelectedCountryData").iso2)
+    });  {% endcomment %}
+
+    var phone_number = window.intlTelInput(document.querySelector("#mobile_no"), {
+        separateDialCode: true,
+        preferredCountries:["in"],
+        hiddenInput: "full",
+        utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.js"
+      });
+
+      {% comment %} $("form").submit(function() {
+        var full_number = phone_number.getNumber(intlTelInputUtils.numberFormat.E164);
+      $("input[name='phone_number[full]'").val(full_number);
+        alert(full_number)
+        
+      }); {% endcomment %}
+      
+
+</script>

@@ -1,0 +1,1 @@
+difficulty_level = [('1', 'Easy'),('2', 'Moderate'),('3', 'Difficult')]
