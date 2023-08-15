@@ -26,25 +26,25 @@ class Districts(models.Model):
     image=models.ImageField(upload_to ='district/',null=True,blank=True)
     title=models.CharField(max_length=255,null=True,blank=True)
     description=models.TextField(null=True,blank=True)
-    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 class Iternary(models.Model):
+    title=models.CharField(max_length=255,null=True,blank=True)
     days=models.CharField(max_length=255,null=True,blank=True)
     description=models.CharField(max_length=255,null=True,blank=True)
-
 
 class Treks(models.Model):
     district=models.ForeignKey(Districts,on_delete=models.CASCADE,null=True,blank=True)
     t_image=models.ManyToManyField(Images)
     title=models.CharField(max_length=255,null=True,blank=True)
     description=models.TextField(null=True,blank=True)
-    route=models.CharField(max_length=255,null=True,blank=True)
+    route=models.TextField(null=True,blank=True)
     altitude=models.CharField(max_length=255,null=True,blank=True)
     trek_length=models.CharField(max_length=255,null=True,blank=True)
     duration=models.CharField(max_length=255,null=True,blank=True)
     difficulty_level=models.PositiveIntegerField(choices=difficulty_level,null=True,blank=True)
+    best_season = models.CharField(max_length=255, blank=True, null=True)
     Iternary=models.ManyToManyField(Iternary)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

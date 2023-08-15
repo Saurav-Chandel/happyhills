@@ -22,7 +22,14 @@ def index(request):
     })
 
 def TrekDetail(request,id):
+    states,districts,treks=[],[],[]
+    state=State.objects.all().order_by('-created_at')
+    for s in state:
+        states.append(s)
+        districts.append([[i,Treks.objects.filter(district_id=i.id)] for i in s.districts_set.all()])
+    lst=list(zip(states,districts))
     return render(request,'frontend/trek-details.html',{
+        'lst':lst
     })    
 
 

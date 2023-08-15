@@ -31,9 +31,9 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                              <label class="form-control-label" for="input-first-name">State</label>
+                              <label class="form-control-label" for="input-first-name">District</label>
                               <select class="form-control" name='district' aria-label="Default select example">
-                                <option value>Select State</option>
+                                <option value>Select District</option>
                                 {% for district in districts %}
                                 <option value='{{district.id}}'>{{district.title}}</option>
                                 {% endfor %}
@@ -42,8 +42,23 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-12">
                             <div class="form-group required-field">
-                                <label class="form-label">Landing Image</label>
-                                <input type="file"  name="image" id='image' class="form-control" >
+                                <label class="form-label">Gallary Images</label>
+                                <input type="file" multiple name="image" id='image' class="form-control" >
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group required-field">
+                                <label class="form-label">Route</label>
+                                <input type="text" placeholder="Please Enter Route" name="route" id="route" class="form-control" maxlength="1000">
+                                <label class="category-error" style="color:red"></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group required-field">
+                                <label class="form-label">Altitude</label>
+                                <input type="text" placeholder="Please Enter Route" name="route" id="route" class="form-control" maxlength="1000">
+                                <label class="category-error" style="color:red"></label>
                             </div>
                         </div>
                         

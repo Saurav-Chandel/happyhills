@@ -182,11 +182,11 @@
                                                             {% for n,m in j %}	
                                                             <div class="submenu">
                                                             
-                                                                <a href="#">{{n.title}}</a>
+                                                                <a href="{% url 'frontend:detail' n.id %}">{{n.title}}</a>
                                                                 <div>
                                                                      {% for b in m %}
                                                                     <div class="submenu">
-                                                                        <a href="#">{{b.title}}</a>
+                                                                        <a href="{% url 'frontend:detail' b.id %}">{{b.title}}</a>
                                                                     </div>
                                                                     {% endfor %} 
                                                                 </div> 
