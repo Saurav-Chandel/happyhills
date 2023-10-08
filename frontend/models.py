@@ -48,7 +48,7 @@ class Treks(models.Model):
     duration=models.CharField(max_length=255,null=True,blank=True)
     difficulty_level=models.PositiveIntegerField(choices=difficulty_level,null=True,blank=True)
     best_season = models.CharField(max_length=255, blank=True, null=True)
-    Iternary=models.ManyToManyField(Iternary)
+    iternary=models.ManyToManyField(Iternary)
     quick_facts = models.TextField(null=True,blank=True)
     guidance = models.TextField(null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
