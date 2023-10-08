@@ -22,23 +22,32 @@
         <div class="card shadow">
             <div class="card-body">
                 <div class=" dataview">
-                    <form onsubmit="Loader()" action="/users/renters/" method="GET">
+                    <form onsubmit="Loader()" action="" method="GET">
 						<div class="table-responsive">
 							<table class="table datatable">
 								<thead>
 									<tr>
 										<th><strong>Title</strong></th>
 										<th><strong>Description</strong></th>
+										<th><strong>Status</strong></th>
 										<th><strong>Created on </strong></th>
 										<th><strong>Actions </strong></th>
 									</tr>
 								</thead>
 								<thead>
 									<tr class="search-row">
-										<td><input type="text" value="" class="form-control" name="full_name" maxlength="20"></td>
-										<td><input type="text" value="" class="form-control" name="email" maxlength="20"></td>
+										<td><input type="text" value="{{title}}" class="form-control" name="title" maxlength="20"></td>
+										<td><input type="text" value="{{description}}" class="form-control" name="description" maxlength="20"></td>
+										<td>
+											<select class="form-control" name="status" onchange="this.form.submit()">
+												<option value=''></option>
+												<option {% if status == 1 %} selected {% endif %} value="1">Publish</option>
+												<option {% if status == 0 %} selected {% endif %} value="0">UnPublish</option>
+
+											</select>
+										</td>
+										<td><input type="date" value="{{created_on}}" class="form-control" onchange="this.form.submit()" name="created_on" maxlength="20"></td>
 										
-										<td><input type="date" value="" class="position-relative form-control" onkeydown="return false"  onchange="this.form.submit()" name="created_on"></td>
 										<td><button type="submit" class="btn btn-primary">Search</button></td>
 									</tr>
 								</thead>
@@ -64,8 +73,16 @@
 											</td> 
 											
 											<td class='clickable-row' data-href="">
-												{{i.description}}
+												{{i.description|truncatechars:50}}
 											</td>
+											<td class='clickable-row' data-href="">
+												{% if i.is_active %}
+												<span class='btn btn-success'>Publish</span>
+												{% else %}
+												<span class='btn btn-warning'>UnPublish</span>
+												{% endif %}
+											</td>
+											
 											
 											<td class='clickable-row' data-href="">
 												<span class="w-space-no">

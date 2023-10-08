@@ -35,8 +35,8 @@
 								</thead>
 								<thead>
 									<tr class="search-row">
-										<td><input type="text" value="" class="form-control" name="full_name" maxlength="20"></td>
-										<td><input type="text" value="" class="form-control" name="email" maxlength="20"></td>
+										<td><input type="text" value="" class="form-control" name="title" maxlength="20"></td>
+										<td><input type="text" value="" class="form-control" name="description" maxlength="20"></td>
 										
 										<td><input type="date" value="" class="position-relative form-control" onkeydown="return false"  onchange="this.form.submit()" name="created_on"></td>
 										<td><button type="submit" class="btn btn-primary">Search</button></td>
@@ -78,11 +78,11 @@
 											
 											<td>
 												<div class="d-flex">
-													<a title="View Details" href="{% url 'frontend:view_banner' i.id %}"
+													<a title="View Details" href="{% url 'frontend:view_state' i.id %}"
 														id="update-btn" class="btn btn-success shadow btn-xs sharp me-1">
 														<i class="fa fa-eye"></i>
 													</a>
-                                                    <a title="View Details" href="{% url 'frontend:edit_banner' i.id %}"
+                                                    <a title="View Details" href="{% url 'frontend:edit_state' i.id %}"
 														id="update-btn" class="btn btn-warning shadow btn-xs sharp me-1">
 														<i class="fa fa-pencil"></i>
 													</a>

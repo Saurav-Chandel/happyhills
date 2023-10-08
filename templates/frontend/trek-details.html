@@ -1,29 +1,79 @@
 {% include 'frontend_includes/header.html' %}
 {% load static %}
 
-<header class="text-center" name="home">
-    <div class="intro-text">
-        <h1 class="wow fadeInDown">Welcome to <strong><span class="color">MyTravel</span></strong></h1>
-        <p class="wow fadeInDown">a creative digital agency from New York</p>
-        <a href="#" class="btn btn-default btn-lg page-scroll wow fadeInUp" data-wow-delay="200ms">Our Portfolio</a> 
-    </div>
+<header class="" name="home">
+    {% comment %} <div class="box-shadow"> {% endcomment %}
+        <div class="overview">
+
+            {% if trek %}
+            <img src="{{trek.t_image.all.first.image.url}}" alt="Mountain Overview">
+            {% elif state %}
+            <img src="{{state.image.url}}" alt="Mountain Overview">
+            {% elif district %}
+            <img src="{{district.image.url}}" alt="Mountain Overview">
+            {% endif %}
+
+            {% if trek %}
+
+            <div class="text-container text-center">
+                <h3>{{trek.title}}</h3>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a class='bread-text' href="{% url 'frontend:index' %}">Home</a></li>
+                      <li class="breadcrumb-item"><a class='bread-text' href="{% url 'frontend:state_detail' trek.district.state.id %}">{{trek.district.state.title}}</a></li>
+                      <li class="breadcrumb-item"><a class='bread-text' href="{% url 'frontend:district_detail' trek.district.id %}">{{trek.district.title}}</a></li>
+                      <li class="breadcrumb-item active bread-text" style='color:#fff' aria-current="page">{{trek.title}}</li>
+                    </ol>
+                  </nav>
+            </div>
+            {% elif district %}
+            <div class="text-container text-center">
+                <h3>{{district.title}}</h3>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a class='bread-text' href="{% url 'frontend:index' %}">Home</a></li>
+                      <li class="breadcrumb-item"><a class='bread-text' href="{% url 'frontend:state_detail' district.state.id %}">{{district.state.title}}</a></li>
+                      <li class="breadcrumb-item active bread-text" style='color:#fff' aria-current="page">{{district.title}}</li>
+                    </ol>
+                  </nav>
+            </div> 
+
+        
+            {% elif state %}
+            <div class="text-container text-center">
+                <h3>{{state.title}}</h3>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a class='bread-text' href="{% url 'frontend:index' %}">Home</a></li>
+                      <li class="breadcrumb-item active bread-text" style='color:#fff' aria-current="page">{{state.title}}</li>
+                    </ol>
+                  </nav>
+            </div> 
+            {% endif %}
+
+        </div>
+    {% comment %} </div> {% endcomment %}
 </header>
-<div id="page-content" class="sub-page">
+
+
+<div id="page-content" style="margin-top:35px "class="sub-page">
     <div id="main-content">
         <article>
             <div class="container">
-                
-                <div class="art-content">
-                    <h1 class="entry-title">The title on the article</h1>
-                    <div class="row">
-                    <div class="col-md-4">
-                        <img src="images/plane.jpg" class="img-responsive" alt="About">
-                    </div>
-                    <div class="col-md-8">
-                        <p>For many years, we have been making sustainable progress possible and driving positive change on every continent. With 2014 sales and revenues of $56 billion, our Company is the world’s leading manufacturer of various products. The company principally operates through its three product segments. Company strategy includes a vision of the future where: we are recognized as the leader everywhere we do business; our products, services and solutions help our customers succeed; our distribution system is a competitive advantage; our supply chain is world class; our business model drives superior results performance consistently rewards our stockholders.<br><br>
-Our Worldwide Code of Conduct, first published in 1974, defines what we stand for and believe in, documenting the uncompromisingly high ethical standards our company has upheld since its founding in 1925.</p>
-                    </div>
-                </div>
+
+                <h1 class="text-center">An Overview</h1>
+                    <p>
+                        {% if trek %}
+                        {{trek.description}}
+                        {% elif state %}
+                        {{state.description}}
+                        {% elif district %}
+                        {{district.description}}
+                        {% endif %}
+                    </p>
+                  
+
+
                     <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>
                     <blockquote><p>Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet vultatup duista.</p></blockquote>
                     <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril.</p>

@@ -3346,7 +3346,7 @@ hr {
 	position: absolute;
 	top: 6px;
 	right: 8px;
-	background: #16FF96;
+	background: linear-gradient(45deg, black, transparent);
 	width: 20px;
 	height: 20px;
 	line-height: 11px;
@@ -5636,7 +5636,6 @@ span.select2-container.select2-container--default.select2-container--open {
 	min-height: 98px;
 	width: 100%;
 	border-radius: 6px;
-	margin: 0 0 25px;
 	padding: 20px;
 }
 
@@ -6260,7 +6259,7 @@ span.select2-container.select2-container--default.select2-container--open {
 	font-size: 14px;
 	font-weight: 500;
 	width: 60%;
-		padding: 5px 0 5px 5px;
+	padding:10px;
 }
 
 @media (max-width: 991.98px) {
@@ -7509,9 +7508,6 @@ input:checked::after {
 	display: none !important;
 }
 
-.tab-panels .card{
-	border-radius: 0px !important;
-}
 
 .accident_info>ul>li h4{
 	width: 50%;
@@ -7966,7 +7962,7 @@ input.input-color{
 /* Rating Reviews */
 
 .cmmnt-card {
-    height: 650px;
+    height: 500px;
     overflow-y: scroll;
 }
 
@@ -8013,4 +8009,99 @@ input.input-color{
 
 .role-permission-row [class*='col-'] {
 	margin-bottom: 30px;
+}
+.tabset>input[type="radio"] {
+	position: absolute;
+	left: -200vw;
+}
+
+.tabset .tab-panel {
+	display: none;
+}
+
+.tabset>input:first-child:checked~.tab-panels>.tab-panel:first-child,
+.tabset>input:nth-child(3):checked~.tab-panels>.tab-panel:nth-child(2),
+.tabset>input:nth-child(5):checked~.tab-panels>.tab-panel:nth-child(3),
+.tabset>input:nth-child(7):checked~.tab-panels>.tab-panel:nth-child(4),
+.tabset>input:nth-child(9):checked~.tab-panels>.tab-panel:nth-child(5),
+.tabset>input:nth-child(11):checked~.tab-panels>.tab-panel:nth-child(6) {
+	display: block;
+}
+
+.tabset>label {
+	position: relative;
+	display: inline-block;
+	padding: 10px 20px 10px 20px;
+
+	border-bottom: 0;
+	cursor: pointer;
+	font-weight: 600;
+	color: black;
+}
+
+.tabset>label:hover,
+.tabset>input:focus+label,
+.tabset>input:checked+label {
+	color: #fff;
+	border-top-left-radius: 14px;
+	border-top-right-radius: 14px;
+	border: 1px solid #82f7c2;
+	background: linear-gradient(to right, black , #82f7c2);
+}
+
+.tabset>input:checked+label {
+	margin-bottom: -1px;
+}
+.comment-image {
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 50%;
+    -webkit-box-shadow: 0px 0px 5px #bbb;
+    box-shadow: 0px 0px 5px #bbb;
+    margin-right: 15px;
+}
+.ml-2, .mx-2 {
+    margin-left: 0.5rem !important;
+}
+
+.mr-2, .mx-2 {
+    margin-right: 0.5rem !important;
+}
+
+.product-profile-wrapper {
+    margin-top: 70px;
+    height: auto;
+}
+     
+.product-detail-wrapper {
+    background: #fff; 
+    padding: 20px; 
+    text-align: center; 
+    width: 190px; 
+    height: 190px; 
+    border-radius: 50%; 
+    margin: 0 auto; 
+    margin-top: -109px; 
+    border: 1px solid #e8e8e8;
+}
+.profile-imgbox {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.profile-imgbox .product-img {
+    display: block;
+    height: 100%;
+}
+.profile-imgbox .product-img img {
+    width: 100%;
+    height: 100% !important;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.widget_box{
+	box-shadow: 7px 11px 22px -5px darkgrey;
+	border-radius: 6px;
 }

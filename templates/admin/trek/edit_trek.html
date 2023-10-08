@@ -1,5 +1,67 @@
 
 {% include 'admin/admin-includes/header.html' %}
+<style>
+    .upload-images {
+        background: #fff none repeat scroll 0 0;
+        border: 2px dashed;
+        padding: 50px 20px;
+        text-align: center;
+        position: relative;
+    }
+    .upload-images input {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+    .img-thumbs {
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 0.25rem;
+        margin: 1.5rem 0;
+        padding: 0.75rem;
+    }
+    .wrapper-thumb {
+        position: relative;
+        display: inline-block;
+        margin: 1rem 0;
+        justify-content: space-around;
+    }
+    .img-preview-thumb {
+        background: #fff;
+        border: 1px solid none;
+        border-radius: 0.25rem;
+        box-shadow: 0.125rem 0.125rem 1rem 0.0625rem rgba(0, 0, 0, 0.12);
+        margin-right: 1rem;
+        width: 140px;
+        height: 140px;
+        padding: 0.25rem;
+        object-fit: cover;
+    }
+    .remove-btn {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        top: -5px;
+        right: 6px;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        color: red;
+    }
+    .img-thumbs-hidden {
+        display: none;
+    }
+</style>
 
 <div class="page-wrapper">
     <div class="content">
@@ -19,63 +81,109 @@
         </div>
         <div class="card shadow">
             <div class="card-body">
-                <form id="edit-renter" action="/users/edit-renter/9/" onsubmit="Loader(this.id)" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="csrfmiddlewaretoken" value="Gy6gWB11Fdzc385VFQmMu4sFR40Ts3ZXwgBEFOBs6B1MtIAJzNjkp2INN5dgrEa3">
-                    <input type="hidden" id="number1" />
-                    <input type="hidden" id="number2" />
+                <form id="edit-renter"  onsubmit="Loader(this.id)" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group mb-3 required-field">
-                                <label class="form-label">First Name</label>
-                                <input type="text" value="" placeholder="Enter First Name" name="first_name" class="form-control" maxlength="50">
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group required-field">
+                                <label class="form-label">Title</label>
+                                <input type="text" placeholder="Please Enter Title" value='{{trek.title}}' name="title" id="title" class="form-control" maxlength="100">
+                                <label class="category-error" style="color:red"></label>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-3 required-field">
-                                <label class="form-label">Last Name</label>
-                                <input type="text" value="" placeholder="Enter Last Name" name="last_name" class="form-control" maxlength="50">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-first-name">District</label>
+                              <select class="form-control" name='district' id='district' aria-label="Default select example">
+                                <option value>Select District</option>
+                                {% for district in districts %}
+                                <option {% if district.id == trek.district.id  %}Selected{% endif %} value='{{district.id}}'>{{district.title}}</option>
+                                {% endfor %}
+                              </select>              
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-3 required-field">
-                                <label class="form-label">Email</label>
-                                <input type="text" value="sharan@gmail.com"  placeholder="Enter Email" name="email" id="email" class="form-control" maxlength="50">
-                                <label class="email-error" value = "email-error" style="color:red"></label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-3 required-field">
-                                <label class="form-label">Phone Number</label>
-                                    <input id="country_code" type="text" style="display:none;" value="" name="country_code" class="form-control" maxlength="20">
-                                    <input type="text" style="display:none;" value=""  name="country_iso" id="country_iso" class="form-control"  maxlength="10">
-                                    <input type="text" class="form-control" onkeypress="return /[0-9\s]/i.test(event.key)" placeholder="Enter Phone Number" name="mobile_no" id="mobile_no" maxlength="10" minlength="9" value=""  >
-                                    <label class="mobile_no-error" id ="mobile_no-error" value="mobile_no-error" style="color:red"></label>
+
+                        <div class="card mb-4 ">
+                            <div class="card-body p-0">
+                                <div class="card-header">
+                                    <h4 class="card-title">Gallary Images</h4>
+                                </div>
+                                <div class="sidebar-widget property-form-group px-4 div_images">
+                                    <div class="upload-images">
+                                        <input type="file" name='property_images' id='property_images' multiple>
+                                        <span><i class="fa fa-cloud-upload"></i> Click here or drop files to
+                                            upload</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="img-thumbs" id="img-preview">
+                                    {% for i in trek.t_image.all %}
+                                    <div class="wrapper-thumb">
+                                        <input type="text" hidden  name="current_photoes" value="property_images/EKO-BLOG-2-1-1-990x600.png" >
+                                        <img src="{{i.image.url}}" class="img-preview-thumb">
+                                        <span class="remove-btn" onclick="RemoveFile(this,'previous')" image-name="property_images/EKO-BLOG-2-1-1-990x600.png">x</span>
+                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label class="form-label">Profile Picture</label>
-                                <input   type="file" name="profile_pic" class="form-control">
-                            </div>       
-                        </div>
-                        <div class="col-md-6"></div>
-                        <div class="mb-3 col-md-6 mt-2 schedule-days required-field">
-                            <div class="form-check checkboxs">
-                                <input type="checkbox" checked class="custom-control-input" name="text_notification" value="text_notification" id="text_notification">
-                                <label class="form-check-label checkmarks" for="text_notification">Text Notifications</label>
-                            </div>
-                            <div class="form-check checkboxs">
-                                <input type="checkbox" checked class="custom-control-input" name="email_notification" value="email_notification" id="email_notification">
-                                <label class="form-check-label checkmarks" for="email_notification">Email Notifications</label>
-                            </div>
-                            <div class="form-check checkboxs">
-                                <input type="checkbox" checked class="custom-control-input" name="promotion_notification" value="recieve_promotions_notification" id="promotion_notification">
-                                <label class="form-check-label checkmarks" for="promotion_notification">Promotion Notificatons</label>
+
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group required-field">
+                                <label class="form-label">Route</label>
+                                <input type="text" placeholder="Please Enter Route" value="{{trek.route}}" name="route" id="route" class="form-control" maxlength="1000">
+                                <label class="category-error" style="color:red"></label>
                             </div>
                         </div>
-                        <div class="col-md-12 text-end">
-                            <button class="btn btn-success" type="submit">Save</button></a>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group required-field">
+                                <label class="form-label">Altitude</label> 
+                                <input type="text" placeholder="Please Enter Route" value="{{trek.altitude}}" name="altitude" id="altitude" class="form-control" maxlength="1000">
+                                <label class="category-error" style="color:red"></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group required-field">
+                                <label class="form-label">Trek length</label>
+                                <input type="text" placeholder="Please Enter Trek Length" value="{{trek.trek_length}}" name="trek_length" id="trek_length" class="form-control" maxlength="1000">
+                                <label class="category-error" style="color:red"></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group required-field">
+                                <label class="form-label">Duration</label>
+                                <input type="text" placeholder="Please Enter Trek Duration" value="{{trek.duration}}" name="duration" id="duration" class="form-control" maxlength="1000">
+                                <label class="category-error" style="color:red"></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group required-field">
+                                <label class="form-label">Level</label>
+                                <select class="form-control" name='level' id='level' aria-label="Default select example">
+                                    <option value>Select level</option>
+                                    <option {% if trek.difficulty_level == 1 %} Selected {% endif %} value='1'>Easy</option>
+                                    <option {% if trek.difficulty_level == 2 %} Selected {% endif %} value='2'>Moderate</option>
+                                    <option {% if trek.difficulty_level == 3 %} Selected {% endif %} value='3'>Difficult</option>
+                                </select>  
+                                <label class="category-error" style="color:red"></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group required-field">
+                                <label class="form-label">Best Season</label>
+                                <input type="text" placeholder="Please Enter Best Season" value="{{trek.best_season}}" name="best_season" id="best_season" class="form-control" maxlength="1000">
+                                <label class="category-error" style="color:red"></label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-12 col-md-12 col-12" id='description_error'>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea rows="4" placeholder="Please Enter Description"   name="description" id="description" class="form-control">{{trek.description}}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 text-end">
+                            <button type="submit" class="btn btn-success me-2">Save</a>
                         </div>
                     </div>
                 </form>
@@ -87,140 +195,72 @@
 {% include 'admin/admin-includes/footer.html' %}
 
 <script type="text/javascript">    
-    jQuery.validator.addMethod("is_email_exists", 
-    function(value, element) {
-        let is_valid = true
-        $.ajax({
-            url: "/accounts/validations/",
-            type: "GET",
-            data: { email: value,user : 9},
-            async:false,
-            success: function (data) {
-                if(data.email_exists == true){
-                    is_valid = false
-                }else{
-                    is_valid =  true
-                }
-              
-            },
-          });        
-        return is_valid
-    },'This email is already exists, please choose another.'); 
     
-    jQuery.validator.addMethod("is_mobile_exists", 
-    function(value, element) {
-        let is_valid = true
-        $.ajax({
-            url: "/accounts/validations/",
-            type: "GET",
-            data: { mobile_no: value,user : 9},
-            async:false,
-            success: function (data) {
-                console.log(data)
-                if(data.mobile_exists == true){
-                    is_valid = false
-                }else{
-                    is_valid =  true
-                }
-              
-            },
-          });        
-        return is_valid
-    },'This phone number is already exists, please choose another.');
     
-    $("#edit-renter").validate({
-        rules: {
-            first_name: {
-                required: true,
-                normalizer: function (value) {
-                    return $.trim(value);
-                }
-            },
-            profile_pic: {
-                accept: "jpg,png,jpeg,gif",
-            },
-            last_name: {
-                required: true,
-                normalizer: function (value) {
-                    return $.trim(value);
-                }
-            },
-            email: {
-                required: true,
-                is_email_exists:true,
-                normalizer: function (value) {
-                    return $.trim(value);
-                },
-            },
-            mobile_no: {
-                required: true,
-                is_mobile_exists:true,
-                normalizer: function (value) {
-                    return $.trim(value);
-                },
-                number: true
-            },
-            gender: {
-                required: true,
+    
+    const property_images = new DataTransfer();
+    var imgUpload = document.getElementById('property_images')
+    , imgPreview = document.getElementById('img-preview')
+    , imgUploadForm = document.getElementById('form-upload')
+    , totalFiles
+    , previewTitle
+    , previewTitleText
+    ,image_position
+    ,clickfunction
+    , img;
+    imgUpload.addEventListener('change', previewImgs, true);
+    function previewImgs(event) {
+        // to remove all images first 
+        $('.new-added').remove()
+        property_images.clearData()
+        totalFiles = imgUpload.files.length;
+            if(!!totalFiles) {
+            imgPreview.classList.remove('img-thumbs-hidden');
+        }
+        for(var i = 0; i < totalFiles; i++) {
+            wrapper = document.createElement('div');
+            wrapper.classList.add('wrapper-thumb');
+            wrapper.classList.add('new-added');
+            removeBtn = document.createElement("span");
+            nodeRemove= document.createTextNode('x');
+            removeBtn.classList.add('remove-btn');
+            removeBtn.appendChild(nodeRemove);
+            img = document.createElement('img');
+            img.src = URL.createObjectURL(event.target.files[i]);
+            // add to file
+            property_images.items.add(event.target.files[i]);
+            image_name = document.createAttribute("image-name");
+            image_name.value = event.target.files[i].name
+            clickfunction = document.createAttribute("onclick");
+            clickfunction.value = "RemoveFile(this,'current')";
+            removeBtn.setAttributeNode(clickfunction);
+            // add to file end
+            removeBtn.setAttributeNode(image_name);
+            img.classList.add('img-preview-thumb');
+            if (event.target.files[i].type == 'image/jpg' || event.target.files[i].type == 'image/png' || event.target.files[i].type == 'image/jpeg' ||event.target.files[i].type == 'image/gif' ||event.target.files[i].type == 'image/svg'){
+            wrapper.appendChild(img);
+            wrapper.appendChild(removeBtn);
+            imgPreview.appendChild(wrapper);
             }
-        },
-        messages: {
-            first_name: {
-                required: "Please enter first name"
-            },
-            last_name: {
-                required: "Please enter last name"
-            },
-            email: {
-                required: "Please enter email"
-            },
-            mobile_no: {
-                required: "Please enter phone number"
-            },
-            gender: {
-                required: "Please select gender",
-            },
-            profile_pic: {
-                accept: "Please upload file in these format only (jpg, png, jpeg)",
-            },
-        },
-         
-    });    
-
-
-    {% comment %} $("#mobile_no").intlTelInput({
-    initialCountry: "auto",
-    separateDialCode: true,
-    geoIpLookup: function(callback) {
-        fetch("https://ipapi.co/json")
-          .then(function(res) { return res.json(); })
-          .then(function(data) { callback(data.country_code); 
-            $('#country_code').val(data.country_code)
-            $('#country_iso').val(data.country_calling_code)
-        })
-          .catch(function() { callback("in"); 
-          $('#country_code').val('in')
-          $('#country_iso').val('+91')
-        });
-      }
-    }).on('countrychange', function (e, countryData) {
-        $('#country_code').val($('.iti__selected-dial-code').text())
-        $('#country_iso').val($("#mobile_no").intlTelInput("getSelectedCountryData").iso2)
-    });  {% endcomment %}
-
-    var phone_number = window.intlTelInput(document.querySelector("#mobile_no"), {
-        separateDialCode: true,
-        preferredCountries:["in"],
-        hiddenInput: "full",
-        utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.js"
-      });
-
-      {% comment %} $("form").submit(function() {
-        var full_number = phone_number.getNumber(intlTelInputUtils.numberFormat.E164);
-      $("input[name='phone_number[full]'").val(full_number);
-        alert(full_number)
-        
-      }); {% endcomment %}
+        }
+    }
+    // remove image and file
+    function RemoveFile(object,state){
+        $(object).parent('.wrapper-thumb').remove();
+        let remainhtml = $('#img-preview').html().trim()
+        if(state == 'current'){
+            for(let i=0; i < property_images.files.length;i++){
+                if (property_images.files[i].name == $(object).attr('image-name')){
+                    property_images.items.remove(i)
+                }
+            }
+            imgUpload.files = property_images.files;
+        }
+        if(!remainhtml){
+            $('#img-preview').html('');
+            $('#img-preview').addClass('img-thumbs-hidden');
+        }
+    }
       
 
 </script>

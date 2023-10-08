@@ -14,10 +14,10 @@
                 </nav>
             </div>
             <div class="page-btn d-flex">
-                <a class="btn btn-primary me-2" href="/accounts/user-notifications/9/" ><i class="fa fa-bell"></i> Notification</a>
-                <a class="btn btn-primary me-2" href="/users/edit-renter/9/" ><i class="fa fa-pencil me-1"></i> Update</a>
-                <a class="btn btn-primary me-2" href="/accounts/user-transactions/9/" ><i class="fa-solid fa-chart-line me-1"></i> Renter Transactions</a>
-                <a class="btn btn-secondary" href="/users/renters/" ><i class="fa fa-angle-left me-1"></i> Back</a>
+                {% comment %} <a class="btn btn-primary me-2" href="/accounts/user-notifications/9/" ><i class="fa fa-bell"></i> Notification</a> {% endcomment %}
+                <a class="btn btn-primary me-2" href="{% url 'frontend:edit_banner' banner.id %}" ><i class="fa fa-pencil me-1"></i> Update</a>
+                {% comment %} <a class="btn btn-primary me-2" href="/accounts/user-transactions/9/" ><i class="fa-solid fa-chart-line me-1"></i> Renter Transactions</a> {% endcomment %}
+                <a class="btn btn-secondary" href="{% url 'frontend:banner' %}" ><i class="fa fa-angle-left me-1"></i> Back</a>
             </div>
         </div>
         <div class="row">
@@ -25,45 +25,17 @@
                     <div class="card product-profile-wrapper shadow">
                         <div class="product-detail-wrapper">
                             <div class="profile-imgbox">
-
-                                
-                                <a class="product-img" href="/static/admin-assets/images/dp.png" data-fancybox="gallery">
-                                    <img style="height: auto;" src="/static/admin-assets/images/dp.png" alt="image">
-                                </a>
-                                
-                                
+                                <a class="product-img" href="{{banner.image.url}}" data-fancybox="gallery">
+                                    <img style="height: auto;" src="{{banner.image.url}}" alt="image">
+                                </a> 
                             </div>
                         </div>
                         <div class="card-body ">
                             <div class="productdetails">
                                 <ul class="product-bar">
                                     <li>
-                                        <h4>Username </h4>
-                                        <h6> - </h6>
-                                    </li>
-                                    <li>
-                                        <h4>Email </h4>
-                                        <h6>sharan@gmail.com</h6>
-                                    </li>
-                                    <li>
-                                        <h4>Phone Number </h4>
-                                        <h6>  - </h6>
-                                    </li>
-                                    <li>
-                                        <h4>Status</h4>
-                                        <h6>
-                                            
-                                            <span class="badge bg-secondary">INACTIVE</span>
-                                            
-                                        </h6>
-                                    </li>
-                                    <li>
-                                        <h4>Is Mail Verified</h4>
-                                        <h6>
-                                            
-                                            <span class="badge bg-danger">Unverified</span>
-                                            
-                                        </h6>
+                                        <h4>Banner Title </h4>
+                                        <h6> {{banner.title}} </h6>
                                     </li>
                                     <li>
                                         <h4>Created On </h4>
@@ -75,29 +47,27 @@
                                         </h6>
                                     </li>
                                     <li>
-                                        <h4>Last Login </h4>
-                                        <h6>
-                                            -
-                                        </h6>
+                                        <h4>Description </h4>
+                                        <h6>{{banner.description}}</h6>
                                     </li>
-
                                     
                                 </ul>
                             </div>
-                            
                                 <div class="btn-list border-0 d-flex justify-content-end align-items-center mt-4">
-                                    
-                                        <a href="/users/active-inactive-user/9/" onclick="Loader()" class="btn btn-success ms-2">Activate</a>
-                                        <a href="/users/delete-user/9/" onclick="Loader()" class="btn btn-danger ms-2">Delete</a>
+                                        {% if banner.is_active %}
+                                        <a href="{% url 'frontend:activate_deactivate_banner' banner.id %}" onclick="Loader()" class="btn btn-success ms-2">UnPublish</a>
+                                        {% else %}
+                                        <a href="{% url 'frontend:activate_deactivate_banner' banner.id %}" onclick="Loader()" class="btn btn-success ms-2">Publish</a>
+                                        {% endif %}
+                                        <a url_link="{% url 'frontend:delete_banner' banner.id %}" class="btn btn-danger show_confirm ms-2">Delete</a>
                                     
                                 </div>
-                            
                         </div>
                     </div>
                 </div>
         </div>
 
-        <div class="col-lg-12 col-sm-12 mt-5">
+        {% comment %} <div class="col-lg-12 col-sm-12 mt-5">
             <div class="row mt-4">
                 <div class="tabset">
                     <input type="radio" name="tabset" id="tab1" aria-controls="Rented Products" checked>
@@ -239,7 +209,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
     </div>
 </div>
 

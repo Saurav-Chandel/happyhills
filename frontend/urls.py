@@ -15,15 +15,19 @@ urlpatterns = [
     path('view-banner/<int:id>/', ViewBanners, name='view_banner'),
     path('edit-banner/<int:id>/', EditBanner, name='edit_banner'),
     path('delete-banner/<int:id>/', DeleteBanner, name='delete_banner'),
+    path('activate-deactive-banner/<int:id>/', ActivatDeactivateBanner, name='activate_deactivate_banner'),
     #State
     path('state-list/',StateList, name='state_list'),
+    path('state-detail/<int:id>/',StateDetail, name='state_detail'),
     path('add-state/', AddState, name='add_state'),
     path('view-state/<int:id>/', ViewState, name='view_state'),
     path('edit-state/<int:id>/', EditState, name='edit_state'),
     path('delete-state/<int:id>/', DeleteState, name='delete_state'),
+    path('activate-deactivate-state/<int:id>/', ActivatDeactivateState, name='activate_deactivate_state'),
 
     #district
     path('district-list/',DistrictList, name='district_list'),
+    path('district-detail/<int:id>/',DistrictDetail, name='district_detail'),
     path('add-district/', AddDistrict, name='add_district'),
     path('view-district/<int:id>/', ViewDistrict, name='view_district'),
     path('edit-district/<int:id>/', EditDistrict, name='edit_district'),

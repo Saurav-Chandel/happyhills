@@ -1,5 +1,67 @@
 
 {% include 'admin/admin-includes/header.html' %}
+<style>
+    .upload-images {
+        background: #fff none repeat scroll 0 0;
+        border: 2px dashed;
+        padding: 50px 20px;
+        text-align: center;
+        position: relative;
+    }
+    .upload-images input {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+    .img-thumbs {
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 0.25rem;
+        margin: 1.5rem 0;
+        padding: 0.75rem;
+    }
+    .wrapper-thumb {
+        position: relative;
+        display: inline-block;
+        margin: 1rem 0;
+        justify-content: space-around;
+    }
+    .img-preview-thumb {
+        background: #fff;
+        border: 1px solid none;
+        border-radius: 0.25rem;
+        box-shadow: 0.125rem 0.125rem 1rem 0.0625rem rgba(0, 0, 0, 0.12);
+        margin-right: 1rem;
+        width: 140px;
+        height: 140px;
+        padding: 0.25rem;
+        object-fit: cover;
+    }
+    .remove-btn {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        top: -5px;
+        right: 6px;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        color: red;
+    }
+    .img-thumbs-hidden {
+        display: none;
+    }
+</style>
 
 <div class="page-wrapper">
     <div class="content">
@@ -19,7 +81,7 @@
         </div>
         <div class="card shadow">
             <div class="card-body">
-                <form onsubmit="Loader(this.id)" id="add-category" action="{% url 'frontend:add_trek' %}" method="POST" enctype="multipart/form-data">
+                <form onsubmit="Loader(this.id)" id="add-treks" action="{% url 'frontend:add_trek' %}" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-12">
@@ -32,18 +94,31 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                               <label class="form-control-label" for="input-first-name">District</label>
-                              <select class="form-control" name='district' aria-label="Default select example">
+                              <select class="form-control" name='district' id='district' aria-label="Default select example">
                                 <option value>Select District</option>
                                 {% for district in districts %}
                                 <option value='{{district.id}}'>{{district.title}}</option>
                                 {% endfor %}
-                              </select>                       
+                              </select>              
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-12">
-                            <div class="form-group required-field">
-                                <label class="form-label">Gallary Images</label>
-                                <input type="file" multiple name="image" id='image' class="form-control" >
+
+                        <div class="card mb-4 ">
+                            <div class="card-body p-0">
+                                <div class="card-header">
+                                    <h4 class="card-title">Gallary Images</h4>
+                                </div>
+                                <div class="sidebar-widget property-form-group px-4 div_images">
+                                    <div class="upload-images">
+                                        <input type="file" name='property_images' id='property_images' multiple>
+                                        <span><i class="fa fa-cloud-upload"></i> Click here or drop files to
+                                            upload</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="img-thumbs-hidden img-thumbs" id="img-preview">
+    
+                                </div>
                             </div>
                         </div>
 
@@ -57,7 +132,40 @@
                         <div class="col-lg-6 col-md-6 col-12">
                             <div class="form-group required-field">
                                 <label class="form-label">Altitude</label>
-                                <input type="text" placeholder="Please Enter Route" name="route" id="route" class="form-control" maxlength="1000">
+                                <input type="text" placeholder="Please Enter Route" name="altitude" id="altitude" class="form-control" maxlength="1000">
+                                <label class="category-error" style="color:red"></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group required-field">
+                                <label class="form-label">Trek length</label>
+                                <input type="text" placeholder="Please Enter Trek Length" name="trek_length" id="trek_length" class="form-control" maxlength="1000">
+                                <label class="category-error" style="color:red"></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group required-field">
+                                <label class="form-label">Duration</label>
+                                <input type="text" placeholder="Please Enter Trek Duration" name="duration" id="duration" class="form-control" maxlength="1000">
+                                <label class="category-error" style="color:red"></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group required-field">
+                                <label class="form-label">Level</label>
+                                <select class="form-control" name='level' id='level' aria-label="Default select example">
+                                    <option value>Select level</option>
+                                    <option value='1'>Easy</option>
+                                    <option value='2'>Moderate</option>
+                                    <option value='3'>Difficult</option>
+                                </select>  
+                                <label class="category-error" style="color:red"></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group required-field">
+                                <label class="form-label">Best Season</label>
+                                <input type="text" placeholder="Please Enter Best Season" name="best_season" id="best_season" class="form-control" maxlength="1000">
                                 <label class="category-error" style="color:red"></label>
                             </div>
                         </div>
@@ -79,3 +187,197 @@
 </div>
 
 {% include 'admin/admin-includes/footer.html' %}
+
+<script>
+
+    $("#add-treks").validate({
+        ignore: [],
+        rules: {
+            title: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                },
+            },
+            district: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                },
+                min:1,
+            },
+            route: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                },
+                
+            },
+            altitude: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                },
+            },
+            trek_length: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                },
+            },
+            level: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                },
+            },
+            duration: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                },
+            },
+            best_season: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                },
+            },
+            
+            description: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                },
+              
+            },
+            property_images: {
+                required:true,
+                accept: "jpg,png,jpeg,gif,svg"
+            },
+        },
+        messages: {
+            title: {
+                required: "Please enter title",
+            },
+            district: {
+                required: "Please enter property price",
+            },
+            route: {
+                required: "Please enter route"
+            },
+            altitude: {
+                required: "Please select altitude"
+            },
+            trek_length: {
+                required: "Please enter trk length",
+            },
+            duration: {
+                required: "Please enter duration",
+            },
+            level: {
+                required: "Please enter level",
+            },
+            best_season: {
+                required: "Please enter best season",
+            },
+            description: {
+                required: "Please enter description",
+            },
+            property_images: {
+                required: "Please select images",
+                accept: "Please upload file in these format only (jpg, jpeg, png, gif,svg)"
+            },
+            
+        },
+       //errorPlacement: function (error, element) {
+       //     if (element.attr("name") == "property_images") {
+       //         error.insertAfter(".div_images");
+       //     }
+       //     else if (element.attr("name") == "description") {
+       //         error.insertAfter(".div_description");
+       //     }
+       //     else {
+       //         error.insertAfter(element);
+       //     }
+       // },
+    });  
+
+    const property_images = new DataTransfer();
+    var imgUpload = document.getElementById('property_images')
+    , imgPreview = document.getElementById('img-preview')
+    , imgUploadForm = document.getElementById('form-upload')
+    , totalFiles
+    , previewTitle
+    , previewTitleText
+    ,image_position
+    ,clickfunction
+    , img;
+    imgUpload.addEventListener('change', previewImgs, true);
+    function previewImgs(event) {
+        // to remove all images first 
+        $('.new-added').remove()
+        property_images.clearData()
+        totalFiles = imgUpload.files.length;
+            if(!!totalFiles) {
+            imgPreview.classList.remove('img-thumbs-hidden');
+        }
+        for(var i = 0; i < totalFiles; i++) {
+            wrapper = document.createElement('div');
+            wrapper.classList.add('wrapper-thumb');
+            wrapper.classList.add('new-added');
+            removeBtn = document.createElement("span");
+            nodeRemove= document.createTextNode('x');
+            removeBtn.classList.add('remove-btn');
+            removeBtn.appendChild(nodeRemove);
+            img = document.createElement('img');
+            img.src = URL.createObjectURL(event.target.files[i]);
+            // add to file
+            property_images.items.add(event.target.files[i]);
+            image_name = document.createAttribute("image-name");
+            image_name.value = event.target.files[i].name
+            clickfunction = document.createAttribute("onclick");
+            clickfunction.value = "RemoveFile(this,'current')";
+            removeBtn.setAttributeNode(clickfunction);
+            // add to file end
+            removeBtn.setAttributeNode(image_name);
+            img.classList.add('img-preview-thumb');
+            if (event.target.files[i].type == 'image/jpg' || event.target.files[i].type == 'image/png' || event.target.files[i].type == 'image/jpeg' ||event.target.files[i].type == 'image/gif' ||event.target.files[i].type == 'image/svg'){
+            wrapper.appendChild(img);
+            wrapper.appendChild(removeBtn);
+            imgPreview.appendChild(wrapper);
+            }
+        }
+    }
+    // remove image and file
+    function RemoveFile(object,state){
+        $(object).parent('.wrapper-thumb').remove();
+        let remainhtml = $('#img-preview').html().trim()
+        if(state == 'current'){
+            for(let i=0; i < property_images.files.length;i++){
+                if (property_images.files[i].name == $(object).attr('image-name')){
+                    property_images.items.remove(i)
+                }
+            }
+            imgUpload.files = property_images.files;
+        }
+        if(!remainhtml){
+            $('#img-preview').html('');
+            $('#img-preview').addClass('img-thumbs-hidden');
+        }
+    }
+
+    {% comment %} $('#property_video').bind('change', function() {
+        let size = this.files[0].size
+        if(size>20000000){
+            $("#video_error").html('File size must be less than 20 mb')
+            $(".btn").prop("disabled",true)
+        }
+        else{
+            $("#video_error").html('')
+            $(".btn").prop("disabled",false)
+        }
+
+      }); {% endcomment %}
+
+</script>

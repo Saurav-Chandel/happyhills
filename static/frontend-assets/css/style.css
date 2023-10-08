@@ -354,3 +354,33 @@ a.btn:focus{outline: 0;}
 .maps iframe{
     pointer-events: none;
 }
+.overview img {
+    max-height: 500px;
+    width: 100%;
+    /* max-width: 582px; */
+}
+
+.overview{
+    position: relative;
+}
+
+
+.text-container {
+    position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-weight: bold;
+  font-size: 3em;
+  font-family :Quicksand, sans-serif;
+}
+.text-container h3{
+    color: white;
+}
+.bread-text{
+    color:#fff ;
+    font-size: 26px;
+}

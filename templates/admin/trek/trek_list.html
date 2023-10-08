@@ -52,10 +52,10 @@
 											<td>
 												<div class="d-flex align-items-center display-images">
 													
-													{% comment %} <a href="{{i.image.url}}" data-fancybox>
-														<img src="{{i.image.url}}"
+													<a href="{{i.t_image.all.first.image.url}}" data-fancybox>
+														<img src="{{i.t_image.all.first.image.url}}"
 														class="rounded-lg me-2" width="24" alt="">
-													</a> {% endcomment %}
+													</a>
 													<span class="w-space-no">{{i.title}}</span>
 													
 												</div>
@@ -82,11 +82,11 @@
 											
 											<td>
 												<div class="d-flex">
-													<a title="View Details" href="{% url 'frontend:view_banner' i.id %}"
+													<a title="View Details" href="{% url 'frontend:view_trek' i.id %}"
 														id="update-btn" class="btn btn-success shadow btn-xs sharp me-1">
 														<i class="fa fa-eye"></i>
 													</a>
-                                                    <a title="View Details" href="{% url 'frontend:edit_banner' i.id %}"
+                                                    <a title="View Details" href="{% url 'frontend:edit_trek' i.id %}"
 														id="update-btn" class="btn btn-warning shadow btn-xs sharp me-1">
 														<i class="fa fa-pencil"></i>
 													</a>
